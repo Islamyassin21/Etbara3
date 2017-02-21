@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_favourity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blue"
+    tools:context="com.example.islam.etbara3.FavourityActivity">
+
+    <ListView
+        android:id="@+id/listViewFav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#bab8b8"
+        android:dividerHeight="3dp"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_fav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="لا توجد بيانات في قائمه المفضله"
+            android:textColor="#ccc"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/button_fav"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:textSize="20sp"
+            android:text="اضـــافه"
+            android:visibility="gone" />
+    </LinearLayout>
+</RelativeLayout>

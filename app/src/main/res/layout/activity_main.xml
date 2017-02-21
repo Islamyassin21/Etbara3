@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blue"
+    android:orientation="vertical"
+    tools:context="com.example.islam.etbara3.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/fail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/conectionfail"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fail"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="حدث خطأ اثناء الاتصال .."
+            android:textColor="#000000"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <ListView
+            android:id="@+id/listViewMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#bab8b8"
+            android:dividerHeight="3dp"
+            />
+    </RelativeLayout>
+</LinearLayout>

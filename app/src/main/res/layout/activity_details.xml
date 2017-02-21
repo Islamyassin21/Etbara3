@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blue"
+    tools:context="com.example.islam.etbara3.DetailsActivity">
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:id="@+id/firstLiniear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/detailsImage"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:id="@+id/detailsOrganizationName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:textColor="#f7f052"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/detailsOrganizationInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/firstLiniear"
+                android:layout_margin="5dp"
+                android:textColor="#ffffff"
+                android:textSize="17sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerHorizontalView"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@id/detailsOrganizationInfo"
+                android:layout_marginLeft="30dp"
+                android:scrollbars="vertical" />
+
+            <TextView
+                android:id="@+id/detailsOrganizationAcountNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/recyclerHorizontalView"
+                android:textColor="#f7f052" />
+
+            <TextView
+                android:id="@+id/detailsOrganizationPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/detailsOrganizationAcountNo"
+                android:textColor="#f7f052" />
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:background="#5caf45"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/detailsSend"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/smslogo"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/detailsCall"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/calllogo"
+            android:textSize="25sp" />
+    </LinearLayout>
+</RelativeLayout>
