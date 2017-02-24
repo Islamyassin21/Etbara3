@@ -199,9 +199,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private void WebServiceDataBackEndLess() {
 
-        sharedPreferences = getSharedPreferences("dataFromBackEndLess", MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
-
         QueryOptions queryOptions = new QueryOptions();
         queryOptions.setRelated(Arrays.asList("organizationName"));
 
@@ -214,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 list.addAll(response.getCurrentPage());
 
                 //  textView.setText("");
-                editor.putString("data", String.valueOf(response));
+                
                 Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                 progressDialog.cancel();
                 getSupportActionBar().show();
