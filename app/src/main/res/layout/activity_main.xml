@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/blue"
     android:orientation="vertical"
     tools:context="com.example.islam.etbara3.MainActivity">
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,12 +35,21 @@
             android:textStyle="bold"
             android:visibility="gone" />
 
-        <ListView
-            android:id="@+id/listViewMain"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="#bab8b8"
-            android:dividerHeight="3dp"
-            />
+            android:layout_height="wrap_content">
+
+            <ListView
+                android:id="@+id/listViewMain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="#bab8b8"
+                android:dividerHeight="2dp"
+                android:layoutAnimation="@anim/list_layout_controller"
+                android:persistentDrawingCache="animation|scrolling" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
     </RelativeLayout>
 </LinearLayout>

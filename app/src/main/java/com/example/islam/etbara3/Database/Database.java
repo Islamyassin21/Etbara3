@@ -98,7 +98,7 @@ public class Database extends SQLiteOpenHelper {
 
     public ArrayList<Model> getFavourite() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(Conestant.TABLE_FAV, null, null, null, null, null, null);
+        Cursor cursor = db.query(Conestant.TABLE_FAV, null, null, null, null, null, Conestant.ORGANIZATION_ID);
         Log.v("cursorData", String.valueOf(cursor.getCount()));
         if (cursor.moveToFirst()) {
             do {

@@ -2,7 +2,9 @@ package com.example.islam.etbara3;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String APP_ID = "2836510F-E02A-936B-FF67-2C3E68F6D400";
     public static final String SECRET_KEY = "D2CA41FB-FD29-AC4E-FFA9-F736ABCB7300";
@@ -40,8 +44,11 @@ public class MainActivity extends AppCompatActivity {
     private List<Model> list = new ArrayList<>();
     private ListAdapter listAdapter;
     private ListView listView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     //  private ProgressDialog progressDialog;
     private ImageView connection;
+    private ProgressDialog progressDialog;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
         Reload();
+
 
     }
 
@@ -63,73 +71,22 @@ public class MainActivity extends AppCompatActivity {
             textView = (TextView) findViewById(R.id.textview);
             connection = (ImageView) findViewById(R.id.fail);
             listView = (ListView) findViewById(R.id.listViewMain);
+            swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
-            final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+
+            swipeRefreshLayout.setOnRefreshListener(this);
+
+            progressDialog = new ProgressDialog(MainActivity.this);
             progressDialog.setMessage("انتظر لحظه من فضلك .. جاري تحميل البيانات");
             progressDialog.setCancelable(false);
             progressDialog.setInverseBackgroundForced(false);
             progressDialog.show();
 
-            QueryOptions queryOptions = new QueryOptions();
-            queryOptions.setRelated(Arrays.asList("organizationName"));
+            //   String data = sharedPreferences.getString("data", "");
 
-            BackendlessDataQuery query = new BackendlessDataQuery(queryOptions);
-            query.setPageSize(80);
-            Backendless.Persistence.of(Model.class).find(query, new AsyncCallback<BackendlessCollection<Model>>() {
-                @Override
-                public void handleResponse(BackendlessCollection<Model> response) {
-                    BackendlessCollection<Model> collection = response;
-                    list.addAll(collection.getCurrentPage());
-                    //  textView.setText("");
-                    // Toast.makeText(getApplicationContext(), "DONE " + list.get(2).getOrganizationName(), Toast.LENGTH_LONG).show();
-                    progressDialog.cancel();
-                    getSupportActionBar().show();
-                    listAdapter = new ListAdapter(MainActivity.this, R.layout.list_row, list);
-                    listView.setAdapter(listAdapter);
-                }
 
-                @Override
-                public void handleFault(BackendlessFault fault) {
-                    // Toast.makeText(MainActivity.this, "حدث خطأ اثناء الاتصال .. حاول مره اخرى", Toast.LENGTH_LONG).show();
-                    progressDialog.cancel();
-                    listView.setVisibility(View.INVISIBLE);
-                    connection.setVisibility(View.VISIBLE);
-                    textView.setVisibility(View.VISIBLE);
-                    connection.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            listView.setVisibility(View.VISIBLE);
-                            connection.setVisibility(View.INVISIBLE);
-                            textView.setVisibility(View.INVISIBLE);
-                            Reload();
-                        }
-                    });
+            WebServiceDataBackEndLess();
 
-                    textView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            listView.setVisibility(View.VISIBLE);
-                            connection.setVisibility(View.INVISIBLE);
-                            textView.setVisibility(View.INVISIBLE);
-                            Reload();
-                        }
-                    });
-//                    final View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.reload_view, null);
-//                    ImageView image = (ImageView) view.findViewById(R.id.reloadImage);
-//                    setContentView(view);
-//                    image.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Toast.makeText(MainActivity.this,"Reload",Toast.LENGTH_LONG).show();
-//                            view.setVisibility(View.INVISIBLE);
-//                            return;
-//
-//                        }
-//                    });
-
-                }
-
-            });
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -234,7 +191,70 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(MainActivity.this, "حدث خطأ اثناء الاتصال .. حاول مره اخرى", Toast.LENGTH_LONG).show();
         }
+
+        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(this, R.anim.list_layout_controller);
+        listView.setLayoutAnimation(controller);
     }
+
+
+    private void WebServiceDataBackEndLess() {
+
+        sharedPreferences = getSharedPreferences("dataFromBackEndLess", MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        QueryOptions queryOptions = new QueryOptions();
+        queryOptions.setRelated(Arrays.asList("organizationName"));
+
+        BackendlessDataQuery query = new BackendlessDataQuery(queryOptions);
+        query.setPageSize(100);
+        Backendless.Persistence.of(Model.class).find(query, new AsyncCallback<BackendlessCollection<Model>>() {
+            @Override
+            public void handleResponse(BackendlessCollection<Model> response) {
+                //  BackendlessCollection<Model> collection = response;
+                list.addAll(response.getCurrentPage());
+
+                //  textView.setText("");
+                editor.putString("data", String.valueOf(response));
+                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                progressDialog.cancel();
+                getSupportActionBar().show();
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                listAdapter = new ListAdapter(MainActivity.this, R.layout.list_row, list);
+                listView.setAdapter(listAdapter);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                // Toast.makeText(MainActivity.this, "حدث خطأ اثناء الاتصال .. حاول مره اخرى", Toast.LENGTH_LONG).show();
+                progressDialog.cancel();
+                swipeRefreshLayout.setVisibility(View.INVISIBLE);
+                connection.setVisibility(View.VISIBLE);
+                textView.setVisibility(View.VISIBLE);
+                connection.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        swipeRefreshLayout.setVisibility(View.VISIBLE);
+                        connection.setVisibility(View.INVISIBLE);
+                        textView.setVisibility(View.INVISIBLE);
+                        Reload();
+                    }
+                });
+
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        swipeRefreshLayout.setVisibility(View.VISIBLE);
+                        connection.setVisibility(View.INVISIBLE);
+                        textView.setVisibility(View.INVISIBLE);
+                        Reload();
+                    }
+                });
+            }
+
+        });
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -261,4 +281,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRefresh() {
+
+        WebServiceDataBackEndLess();
+    }
 }
