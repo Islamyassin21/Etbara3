@@ -74,7 +74,7 @@ public class FavourityActivity extends AppCompatActivity {
                 final Button cancel = (Button) dialog.findViewById(R.id.dialog_cancel);
                 final ImageView fav = (ImageView) dialog.findViewById(R.id.dialog_fav);
 
-                boolean exist = db.OrganizationExist(model.getOrganizationID());
+                boolean exist = db.OrganizationExistInFav(model.getOrganizationID());
                 Toast.makeText(FavourityActivity.this, model.getOrganizationID() + "", Toast.LENGTH_LONG).show();
                 if (exist)
                     fav.setImageResource(android.R.drawable.btn_star_big_on);
@@ -118,11 +118,11 @@ public class FavourityActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
 
-                        boolean exist = db.OrganizationExist(model.getOrganizationID());
+                        boolean exist = db.OrganizationExistInFav(model.getOrganizationID());
 
                         if (exist) {
 
-                            db.deleteOrganization(model);
+                            db.deleteOrganizationFav(model);
                             fav.setImageResource(android.R.drawable.btn_star_big_off);
                             Toast.makeText(FavourityActivity.this, "تم الازاله من المفضله", Toast.LENGTH_LONG).show();
 

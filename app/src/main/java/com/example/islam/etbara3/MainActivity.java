@@ -44,11 +44,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private List<Model> list = new ArrayList<>();
     private ListAdapter listAdapter;
     private ListView listView;
+    private ArrayList<Model> arrayAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     //  private ProgressDialog progressDialog;
     private ImageView connection;
     private ProgressDialog progressDialog;
     private SharedPreferences sharedPreferences;
+    private Database db = new Database(MainActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +59,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         getSupportActionBar().hide();
         Reload();
-
-
     }
 
     private void Reload() {
@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             listView = (ListView) findViewById(R.id.listViewMain);
             swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
-
             swipeRefreshLayout.setOnRefreshListener(this);
 
             progressDialog = new ProgressDialog(MainActivity.this);
@@ -85,13 +84,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             //   String data = sharedPreferences.getString("data", "");
 
 
-            WebServiceDataBackEndLess();
-
+            if (db.getOrganizationCount() <= 0) {
+                WebServiceDataBackEndLess();
+            } else {
+                getDataFromDatabase();
+            }
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 private AlertDialog alertDialog;
-                Database db = new Database(MainActivity.this);
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     final Button cancel = (Button) dialog.findViewById(R.id.dialog_cancel);
                     final ImageView fav = (ImageView) dialog.findViewById(R.id.dialog_fav);
 
-                    boolean exist = db.OrganizationExist(model.getOrganizationID());
+                    boolean exist = db.OrganizationExistInFav(model.getOrganizationID());
                     Toast.makeText(MainActivity.this, model.getOrganizationID() + "", Toast.LENGTH_LONG).show();
                     if (exist)
                         fav.setImageResource(android.R.drawable.btn_star_big_on);
@@ -115,9 +116,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
                     builder.setCancelable(false);
                     alertDialog = builder.show();
-
-                    final Database db = new Database(MainActivity.this);
-
 
                     done.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -144,16 +142,16 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                         public void onClick(View v) {
 
 
-                            boolean exist = db.OrganizationExist(model.getOrganizationID());
+                            boolean exist = db.OrganizationExistInFav(model.getOrganizationID());
 
                             if (exist) {
 
-                                db.deleteOrganization(model);
+                                db.deleteOrganizationFav(model);
                                 fav.setImageResource(android.R.drawable.btn_star_big_off);
                                 Toast.makeText(MainActivity.this, "تم الازاله من المفضله", Toast.LENGTH_LONG).show();
 
                             } else {
-                                db.AddOrganization(model);
+                                db.AddOrganizationFavorite(model);
                                 fav.setImageResource(android.R.drawable.btn_star_big_on);
                                 Toast.makeText(MainActivity.this, "تم الاضافه الى المفضله", Toast.LENGTH_LONG).show();
 
@@ -210,9 +208,32 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 //  BackendlessCollection<Model> collection = response;
                 list.addAll(response.getCurrentPage());
 
+                if (db.getOrganizationCount() == list.size()) {
+                    Toast.makeText(getApplicationContext(), "لا توجد بيانات جديده في الوقت الحالي", Toast.LENGTH_LONG).show();
+
+                } else if (db.getOrganizationCount() < list.size()) {
+                    int count = list.size() - db.getOrganizationCount();
+                    Toast.makeText(getApplicationContext(), "تم اضافه( " + count + ") مؤسسه جديده", Toast.LENGTH_LONG).show();
+                    for (int i = 0; i < list.size(); i++) {
+                        Model model = list.get(i);
+                        if (!db.OrganizationExist(model.getOrganizationID())) {
+                            db.AddOrganization(model);
+                        }
+                    }
+                } else {
+                    int count = -(list.size() - db.getOrganizationCount());
+                    Toast.makeText(getApplicationContext(), "تم ازاله( " + count + ") مؤسسه", Toast.LENGTH_LONG).show();
+                    db.deleteOrganization();
+                    for (int i = 0; i < list.size(); i++) {
+                        Model model = list.get(i);
+                        if (!db.OrganizationExist(model.getOrganizationID())) {
+                            db.AddOrganization(model);
+                        }
+                    }
+                }
                 //  textView.setText("");
-                
-                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+
+                // Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                 progressDialog.cancel();
                 getSupportActionBar().show();
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
@@ -223,11 +244,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             @Override
             public void handleFault(BackendlessFault fault) {
-                // Toast.makeText(MainActivity.this, "حدث خطأ اثناء الاتصال .. حاول مره اخرى", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "حدث خطأ اثناء الاتصال .. تأكد من اتصالك بالانترنت", Toast.LENGTH_LONG).show();
                 progressDialog.cancel();
                 swipeRefreshLayout.setVisibility(View.INVISIBLE);
                 connection.setVisibility(View.VISIBLE);
                 textView.setVisibility(View.VISIBLE);
+                getDataFromDatabase();
+                swipeRefreshLayout.setRefreshing(false);
+
+
                 connection.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -242,6 +267,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     @Override
                     public void onClick(View v) {
                         swipeRefreshLayout.setVisibility(View.VISIBLE);
+
                         connection.setVisibility(View.INVISIBLE);
                         textView.setVisibility(View.INVISIBLE);
                         Reload();
@@ -252,6 +278,43 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         });
     }
 
+    public void getDataFromDatabase() {
+
+        db = new Database(MainActivity.this);
+        arrayAdapter = db.getOrganization();
+
+        if (arrayAdapter.size() != 0) {
+
+            for (int i = 0; i < arrayAdapter.size(); i++) {
+
+                Model model = new Model();
+
+                model.setOrganizationID(arrayAdapter.get(i).getOrganizationID());
+                model.setOrganizationYoutubeLink(arrayAdapter.get(i).getOrganizationYoutubeLink());
+                model.setOrganizationSMSContent(arrayAdapter.get(i).getOrganizationSMSContent());
+                model.setOrganizationSMS(arrayAdapter.get(i).getOrganizationSMS());
+                model.setOrganizationYoutubeName(arrayAdapter.get(i).getOrganizationYoutubeName());
+                model.setOrganizationAccountNo(arrayAdapter.get(i).getOrganizationAccountNo());
+                model.setOrganizationInfo(arrayAdapter.get(i).getOrganizationInfo());
+                model.setOrganizationMouny(arrayAdapter.get(i).getOrganizationMouny());
+                model.setOrganizationName(arrayAdapter.get(i).getOrganizationName());
+                model.setOrganizationPhone(arrayAdapter.get(i).getOrganizationPhone());
+                model.setOrganizationPhoto(arrayAdapter.get(i).getOrganizationPhoto());
+                model.setOrganozationService(arrayAdapter.get(i).getOrganozationService());
+
+                list.add(model);
+
+                progressDialog.cancel();
+                getSupportActionBar().show();
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                listAdapter = new ListAdapter(MainActivity.this, R.layout.list_row, list);
+                listView.setAdapter(listAdapter);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        } else {
+
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -281,6 +344,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     public void onRefresh() {
 
+        list.clear();
         WebServiceDataBackEndLess();
     }
 }

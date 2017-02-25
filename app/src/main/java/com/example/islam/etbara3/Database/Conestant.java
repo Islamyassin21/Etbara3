@@ -8,6 +8,7 @@ public class Conestant {
 
     public static final String DATABASE_NAME = "MyFavourite";
     public static final String TABLE_FAV = "tableFave";
+    public static final String TABLE_Organization = "tableOrganization";
     public static final int DATABASE_VERSION = 1;
 
     public static final String ORGANIZATION_ID = "_id";
