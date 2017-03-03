@@ -6,8 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.islam.etbara3.Database.Database;
+import com.example.islam.etbara3.MainActivity;
 import com.example.islam.etbara3.Model.Model;
 import com.example.islam.etbara3.R;
 
@@ -24,6 +28,9 @@ public class ListAdapter extends ArrayAdapter<Model> {
     int layoutresource;
     Model model;
     List<Model> mData = Collections.emptyList();
+    private Database db;
+    private final int[] mCheckstates;
+
 
     public ListAdapter(Context act, int resource, List<Model> data) {
         super(act, resource, data);
@@ -32,6 +39,7 @@ public class ListAdapter extends ArrayAdapter<Model> {
         layoutresource = resource;
         mData = data;
         notifyDataSetChanged();
+        mCheckstates = new int[data.size()];
     }
 
     @Override
@@ -71,7 +79,8 @@ public class ListAdapter extends ArrayAdapter<Model> {
             holder.mKema = (TextView) row.findViewById(R.id.listKema);
             holder.mOrganizationName = (TextView) row.findViewById(R.id.listOrganizationName);
             holder.mOrganizationService = (TextView) row.findViewById(R.id.listOrganizationService);
-            holder.mOrganizationSMS = (TextView) row.findViewById(R.id.listOrganizationSMS);
+            holder.mFavorite = (ImageView) row.findViewById(R.id.addToFav);
+
 
             row.setTag(holder);
 
@@ -81,11 +90,40 @@ public class ListAdapter extends ArrayAdapter<Model> {
         }
 
         holder.model = getItem(position);
-        //  holder.organizationName.setText(holder.model.getOrganizationName());
         holder.mOrganizationName.setText(holder.model.getOrganizationName());
-        holder.mOrganizationSMS.setText(holder.model.getOrganizationSMS());
         holder.mOrganizationService.setText(holder.model.getOrganozationService());
         holder.mKema.setText(holder.model.getOrganizationMouny());
+
+        holder.mFavorite.setImageResource(android.R.drawable.btn_star_big_off);
+
+        db = new Database(activity);
+
+        boolean exist = db.OrganizationExistInFav(holder.model.getOrganizationID());
+        if (exist)
+            holder.mFavorite.setImageResource(android.R.drawable.btn_star_big_on);
+
+        final ViewHolder finalHolder = holder;
+        holder.mFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                boolean exist = db.OrganizationExistInFav(finalHolder.model.getOrganizationID());
+
+                if (exist) {
+
+                    db.deleteOrganizationFav(finalHolder.model);
+                    finalHolder.mFavorite.setImageResource(android.R.drawable.btn_star_big_off);
+                    Toast.makeText(activity, "تم الازاله من المفضله", Toast.LENGTH_LONG).show();
+
+
+                } else {
+                    db.AddOrganizationFavorite(finalHolder.model);
+                    finalHolder.mFavorite.setImageResource(android.R.drawable.btn_star_big_on);
+                    Toast.makeText(activity, "تم الاضافه الى المفضله", Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
 
 
         return row;
@@ -103,6 +141,7 @@ public class ListAdapter extends ArrayAdapter<Model> {
         TextView mKema;
         TextView mOrganizationName;
         TextView mOrganizationService;
+        ImageView mFavorite;
         TextView mOrganizationSMS;
 
     }

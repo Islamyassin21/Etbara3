@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.islam.etbara3.Adapter.FavoriteAdapter;
 import com.example.islam.etbara3.Adapter.ListAdapter;
 import com.example.islam.etbara3.Database.Database;
 import com.example.islam.etbara3.Model.Model;
@@ -32,7 +33,7 @@ public class FavourityActivity extends AppCompatActivity {
     private Button buttonFav;
     private ArrayList<Model> arrayAdapter;
     private ArrayList<Model> list = new ArrayList<>();
-    private ListAdapter listAdapter;
+    private FavoriteAdapter favAdapter;
     private Database db;
 
     @Override
@@ -48,9 +49,9 @@ public class FavourityActivity extends AppCompatActivity {
 
         getData();
 
-        listAdapter = new ListAdapter(FavourityActivity.this, R.layout.list_row, list);
-        listFav.setAdapter(listAdapter);
-        listAdapter.notifyDataSetChanged();
+        favAdapter = new FavoriteAdapter(FavourityActivity.this, R.layout.list_row, list);
+        listFav.setAdapter(favAdapter);
+        favAdapter.notifyDataSetChanged();
 
         buttonFav.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,18 +68,11 @@ public class FavourityActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final Model model = listAdapter.getItem(position);
+                final Model model = favAdapter.getItem(position);
                 View dialog = LayoutInflater.from(FavourityActivity.this).inflate(R.layout.cunfarm_dialog, null);
                 final TextView textView = (TextView) dialog.findViewById(R.id.dialog_text);
                 final Button done = (Button) dialog.findViewById(R.id.dialog_done);
                 final Button cancel = (Button) dialog.findViewById(R.id.dialog_cancel);
-                final ImageView fav = (ImageView) dialog.findViewById(R.id.dialog_fav);
-
-                boolean exist = db.OrganizationExistInFav(model.getOrganizationID());
-               // Toast.makeText(FavourityActivity.this, model.getOrganizationID() + "", Toast.LENGTH_LONG).show();
-                if (exist)
-                    fav.setImageResource(android.R.drawable.btn_star_big_on);
-
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(FavourityActivity.this);
                 builder.setView(dialog);
@@ -105,34 +99,15 @@ public class FavourityActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
                         alertDialog.cancel();
-                        listAdapter.clear();
+                        favAdapter.clear();
                         getData();
-                        listAdapter = new ListAdapter(FavourityActivity.this, R.layout.list_row, list);
-                        listFav.setAdapter(listAdapter);
-                        listAdapter.notifyDataSetChanged();
+                        favAdapter = new FavoriteAdapter(FavourityActivity.this, R.layout.list_row, list);
+                        listFav.setAdapter(favAdapter);
+                        favAdapter.notifyDataSetChanged();
                     }
                 });
 
-                fav.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-
-                        boolean exist = db.OrganizationExistInFav(model.getOrganizationID());
-
-                        if (exist) {
-
-                            db.deleteOrganizationFav(model);
-                            fav.setImageResource(android.R.drawable.btn_star_big_off);
-                            Toast.makeText(FavourityActivity.this, "تم الازاله من المفضله", Toast.LENGTH_LONG).show();
-
-                        } else {
-                            db.AddOrganizationFavorite(model);
-                            fav.setImageResource(android.R.drawable.btn_star_big_on);
-                            Toast.makeText(FavourityActivity.this, "تم الاضافه الى المفضله", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
 
 
             }

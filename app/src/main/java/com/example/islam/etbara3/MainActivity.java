@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             swipeRefreshLayout.setOnRefreshListener(this);
 
+
             progressDialog = new ProgressDialog(MainActivity.this);
             progressDialog.setMessage("انتظر لحظه من فضلك .. جاري تحميل البيانات");
             progressDialog.setCancelable(false);
@@ -102,12 +103,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     final TextView textView = (TextView) dialog.findViewById(R.id.dialog_text);
                     final Button done = (Button) dialog.findViewById(R.id.dialog_done);
                     final Button cancel = (Button) dialog.findViewById(R.id.dialog_cancel);
-                    final ImageView fav = (ImageView) dialog.findViewById(R.id.dialog_fav);
-
-                    boolean exist = db.OrganizationExistInFav(model.getOrganizationID());
-                    Toast.makeText(MainActivity.this, model.getOrganizationID() + "", Toast.LENGTH_LONG).show();
-                    if (exist)
-                        fav.setImageResource(android.R.drawable.btn_star_big_on);
 
 
                     final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -137,29 +132,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                         }
                     });
 
-
-                    fav.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-
-                            boolean exist = db.OrganizationExistInFav(model.getOrganizationID());
-
-                            if (exist) {
-
-                                db.deleteOrganizationFav(model);
-                                fav.setImageResource(android.R.drawable.btn_star_big_off);
-                                Toast.makeText(MainActivity.this, "تم الازاله من المفضله", Toast.LENGTH_LONG).show();
-
-                            } else {
-                                db.AddOrganizationFavorite(model);
-                                fav.setImageResource(android.R.drawable.btn_star_big_on);
-                                Toast.makeText(MainActivity.this, "تم الاضافه الى المفضله", Toast.LENGTH_LONG).show();
-
-                            }
-
-                        }
-                    });
                 }
             });
 

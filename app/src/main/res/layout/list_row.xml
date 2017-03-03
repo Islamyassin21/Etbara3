@@ -2,133 +2,85 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="5dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
     android:orientation="vertical">
 
-
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background"
-        android:shrinkColumns="1">
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-        <TableRow
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_margin="5dp"
+            android:background="@drawable/coin_icon"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.16"
+            android:orientation="vertical"
             android:weightSum="1">
 
-            <LinearLayout
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                android:layout_column="0"
-                android:layout_weight="0.1"
-                android:clickable="false"
+            <TextView
+                android:id="@+id/listKema"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:paddingLeft="5dp"
-                android:weightSum="1">
+                android:text="10"
+                android:textSize="29sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:text="sms"
 
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/listOrganizationSMS"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:text="500500"
-                    android:textSize="18sp" />
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_column="1"
-                android:layout_weight="0.7"
-                android:clickable="false"
-                android:orientation="vertical"
-                android:weightSum="1">
 
-                <TextView
-                    android:id="@+id/listOrganizationName"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="bottom"
-                    android:paddingRight="5dp"
-                    android:text="مؤسسه مرسال"
-                    android:textSize="19sp"
-                    android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.64"
+            android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/listOrganizationService"
-                    android:layout_width="180dp"
-                    android:layout_height="35dp"
-                    android:layout_gravity="end"
-                    android:layout_marginBottom="3dp"
-                    android:clickable="false"
-                    android:ellipsize="end"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:hint="علاج"
-                    android:maxLines="2"
-                    android:paddingBottom="2dp"
-                    android:paddingRight="5dp"
-                    android:textSize="14sp" />
-            </LinearLayout>
+            <TextView
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:text="مؤسسه مرسال"
+                android:gravity="center_vertical"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/listOrganizationName" />
 
-            <LinearLayout
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                android:layout_column="2"
-                android:layout_weight="0.2"
-                android:background="@color/background2"
-                android:clickable="false"
-                android:gravity="center"
-                android:orientation="vertical">
+            <TextView
+                android:id="@+id/listOrganizationService"
+                android:text="علاج"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/listKema"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:text="10"
-                    android:textColor="@color/mouny"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
+        <RelativeLayout
+            android:clickable="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:text="جنيه"
-                    android:textSize="25sp" />
-            </LinearLayout>
-        </TableRow>
-    </TableLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@android:drawable/btn_star_big_off"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/addToFav" />
+        </RelativeLayout>
 
+
+    </LinearLayout>
 
 
 </LinearLayout>
