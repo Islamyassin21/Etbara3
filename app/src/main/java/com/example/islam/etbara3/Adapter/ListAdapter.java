@@ -41,6 +41,7 @@ public class ListAdapter extends ArrayAdapter<Model> {
 
     @Override
     public Model getItem(int position) {
+
         return mData.get(position);
     }
 
@@ -67,7 +68,6 @@ public class ListAdapter extends ArrayAdapter<Model> {
             row = inflater.inflate(R.layout.list_row, null);
             holder = new ViewHolder();
 
-       //     holder.organizationName = (Button) row.findViewById(R.id.button);
             holder.mKema = (TextView) row.findViewById(R.id.listKema);
             holder.mOrganizationName = (TextView) row.findViewById(R.id.listOrganizationName);
             holder.mOrganizationService = (TextView) row.findViewById(R.id.listOrganizationService);
@@ -81,34 +81,12 @@ public class ListAdapter extends ArrayAdapter<Model> {
         }
 
         holder.model = getItem(position);
-      //  holder.organizationName.setText(holder.model.getOrganizationName());
+        //  holder.organizationName.setText(holder.model.getOrganizationName());
         holder.mOrganizationName.setText(holder.model.getOrganizationName());
         holder.mOrganizationSMS.setText(holder.model.getOrganizationSMS());
         holder.mOrganizationService.setText(holder.model.getOrganozationService());
         holder.mKema.setText(holder.model.getOrganizationMouny());
 
-
-        final ViewHolder finalHolder = holder;
-//        finalHolder.organizationName.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Model model = getItem(position);
-//                  Toast.makeText(finalHolder.organizationName.getContext(), position + " " + islam.getOrganizationInfo(), Toast.LENGTH_LONG).show();
-//                Intent i = new Intent(finalHolder.organizationName.getContext(), DetailsActivity.class);
-//                i.putExtra("organizationName", model.getOrganizationName());
-//                i.putExtra("organizationInfo", model.getOrganizationInfo());
-//                i.putExtra("organizationAcountNo", model.getOrganizationAccountNo());
-//                i.putExtra("organizationPhone", model.getOrganizationPhone());
-//                i.putExtra("organizationSMSContent", model.getOrganizationSMSContent());
-//                i.putExtra("organizationSMS", model.getOrganizationSMS());
-//                i.putExtra("organizationYoutubeLink", model.getOrganizationYoutubeLink());
-//                i.putExtra("organizationYoutubeName", model.getOrganizationYoutubeName());
-//                i.putExtra("organizationService", model.getOrganozationService());
-//                i.putExtra("organizationMouny", model.getOrganizationMouny());
-//                activity.startActivity(i);
-//
-//            }
-//        });
 
         return row;
     }
@@ -122,7 +100,6 @@ public class ListAdapter extends ArrayAdapter<Model> {
     class ViewHolder {
 
         Model model;
-    //    Button organizationName;
         TextView mKema;
         TextView mOrganizationName;
         TextView mOrganizationService;

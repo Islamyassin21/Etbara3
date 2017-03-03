@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -230,6 +231,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                             db.AddOrganization(model);
                         }
                     }
+
+                    ArrayList<Model> check = db.getFavourite();
+                    for (int i = 0; i < check.size(); i++) {
+                        Model model = check.get(i);
+                        boolean exist = db.OrganizationExist(model.getOrganizationID());
+                        if (!exist) {
+                            db.deleteOrganizationFav(model);
+                        }
+                    }
+
+
                 }
                 //  textView.setText("");
 
@@ -346,5 +358,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         list.clear();
         WebServiceDataBackEndLess();
+
+        //   Model model = new Model();
+        ArrayList<Model> check = db.getFavourite();
+        for (int i = 0; i < check.size(); i++) {
+            Model model = check.get(i);
+            boolean exist = db.OrganizationExist(model.getOrganizationID());
+            if (!exist) {
+                db.deleteOrganizationFav(model);
+            }
+        }
     }
 }
