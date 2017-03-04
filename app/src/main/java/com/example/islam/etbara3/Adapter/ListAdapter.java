@@ -113,13 +113,13 @@ public class ListAdapter extends ArrayAdapter<Model> {
 
                     db.deleteOrganizationFav(finalHolder.model);
                     finalHolder.mFavorite.setImageResource(android.R.drawable.btn_star_big_off);
-                    Toast.makeText(activity, "تم الازاله من المفضله", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "تم الازاله من المفضله", Toast.LENGTH_SHORT).show();
 
 
                 } else {
                     db.AddOrganizationFavorite(finalHolder.model);
                     finalHolder.mFavorite.setImageResource(android.R.drawable.btn_star_big_on);
-                    Toast.makeText(activity, "تم الاضافه الى المفضله", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "تم الاضافه الى المفضله", Toast.LENGTH_SHORT).show();
 
                 }
             }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="5dp"
-    android:paddingTop="5dp"
+    android:layout_height="wrap_content"
+    android:background="#362c28"
+    android:orientation="vertical"
     android:paddingBottom="5dp"
-    android:orientation="vertical">
+    android:paddingLeft="5dp"
+    android:paddingTop="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,27 +15,41 @@
         android:weightSum="1">
 
         <LinearLayout
-            android:layout_margin="5dp"
-            android:background="@drawable/coin_icon"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.16"
             android:orientation="vertical"
             android:weightSum="1">
 
-            <TextView
-                android:id="@+id/listKema"
+            <LinearLayout
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.7"
+                android:background="@drawable/coin_icon"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/listKema"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="10"
+                    android:textSize="29sp" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:textColor="#ffd443"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.3"
                 android:gravity="center"
-                android:text="10"
-                android:textSize="29sp" />
-
-
+                android:text="جنيه" />
         </LinearLayout>
-
-
 
         <LinearLayout
             android:layout_width="0dp"
@@ -43,40 +58,44 @@
             android:orientation="vertical">
 
             <TextView
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:text="مؤسسه مرسال"
-                android:gravity="center_vertical"
-                android:textSize="18sp"
+                android:id="@+id/listOrganizationName"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:id="@+id/listOrganizationName" />
+                android:paddingLeft="5dp"
+                android:gravity="center_vertical"
+                android:text="مؤسسه مرسال"
+                android:textColor="#f7b32b"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/listOrganizationService"
-                android:text="علاج"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:text="علاج"
+                android:textColor="#e3e4db" />
         </LinearLayout>
 
         <RelativeLayout
-            android:clickable="true"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.2">
+            android:layout_weight="0.2"
+            android:clickable="false"
+            >
 
             <ImageView
+                android:id="@+id/addToFav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@android:drawable/btn_star_big_off"
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:id="@+id/addToFav" />
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:src="@android:drawable/btn_star_big_off" />
         </RelativeLayout>
 
 

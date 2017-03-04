@@ -230,9 +230,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             public void handleFault(BackendlessFault fault) {
                 Toast.makeText(MainActivity.this, "حدث خطأ اثناء الاتصال .. تأكد من اتصالك بالانترنت", Toast.LENGTH_LONG).show();
                 progressDialog.cancel();
-                swipeRefreshLayout.setVisibility(View.INVISIBLE);
-                connection.setVisibility(View.VISIBLE);
-                textView.setVisibility(View.VISIBLE);
+                //    swipeRefreshLayout.setVisibility(View.INVISIBLE);
+
+                if (db.getOrganizationCount() == 0) {
+                    connection.setVisibility(View.VISIBLE);
+                    textView.setVisibility(View.VISIBLE);
+                }
                 getDataFromDatabase();
                 swipeRefreshLayout.setRefreshing(false);
 
@@ -304,6 +307,16 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_activity, menu);
+
+        ArrayList<Model> array123 = db.getFavourite();
+        Toast.makeText(MainActivity.this, array123.size() + "", Toast.LENGTH_LONG).show();
+        if (!(array123.size() == 0)) {
+            menu.findItem(R.id.action_favorite).setIcon(android.R.drawable.btn_star_big_on);
+
+        } else {
+            menu.findItem(R.id.action_favorite).setIcon(android.R.drawable.btn_star_big_off);
+
+        }
         return true;
     }
 

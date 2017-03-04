@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="#362c28"
     android:orientation="vertical"
     tools:context="com.example.islam.etbara3.MainActivity">
 
@@ -45,8 +45,8 @@
                 android:id="@+id/listViewMain"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="#bab8b8"
-                android:dividerHeight="10dp"
+                android:divider="#4c5454"
+                android:dividerHeight="5dp"
                 android:layoutAnimation="@anim/list_layout_controller"
                 android:persistentDrawingCache="animation|scrolling" />
         </android.support.v4.widget.SwipeRefreshLayout>

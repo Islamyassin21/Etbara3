@@ -33,7 +33,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".FavourityActivity"></activity>
+        <activity android:name=".FavourityActivity" />
+        <activity android:name=".SettingActivity"></activity>
     </application>
 
 </manifest>
