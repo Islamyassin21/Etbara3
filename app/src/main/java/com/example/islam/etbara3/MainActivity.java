@@ -308,9 +308,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_activity, menu);
 
-        ArrayList<Model> array123 = db.getFavourite();
-        Toast.makeText(MainActivity.this, array123.size() + "", Toast.LENGTH_LONG).show();
-        if (!(array123.size() == 0)) {
+        ArrayList<Model> arrayFav = db.getFavourite();
+        Toast.makeText(MainActivity.this, arrayFav.size() + "", Toast.LENGTH_LONG).show();
+        if (!(arrayFav.size() == 0)) {
             menu.findItem(R.id.action_favorite).setIcon(android.R.drawable.btn_star_big_on);
 
         } else {
@@ -341,9 +341,22 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     public void onRefresh() {
 
+
+        listView.setVisibility(View.INVISIBLE);
+//        //Save where you last were in the list.
+//        int index = listView.getFirstVisiblePosition();
+//        View v = listView.getChildAt(0);
+//        // Call to notify, or updated(change, remove, move, add)
+//
+//        listAdapter.notifyDataSetChanged();
+//        int top = (v == null) ? 0 : v.getTop();
+//
+//        //Prevents the scroll to the new item at the new position
+//        listView.setSelectionFromTop(index, top);
+
         list.clear();
         WebServiceDataBackEndLess();
-
+        listView.setVisibility(View.VISIBLE);
         //   Model model = new Model();
         ArrayList<Model> check = db.getFavourite();
         for (int i = 0; i < check.size(); i++) {

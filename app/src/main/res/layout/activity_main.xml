@@ -47,6 +47,7 @@
                 android:layout_height="match_parent"
                 android:divider="#4c5454"
                 android:dividerHeight="5dp"
+                android:background="@drawable/back_wood"
                 android:layoutAnimation="@anim/list_layout_controller"
                 android:persistentDrawingCache="animation|scrolling" />
         </android.support.v4.widget.SwipeRefreshLayout>

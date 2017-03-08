@@ -20,6 +20,7 @@ public class Database extends SQLiteOpenHelper {
     public String CREATE_FAVE_TABLE;
     public String CREATE_ORGANIZATION_TABLE;
     private final ArrayList<Model> dataListModel = new ArrayList<>();
+    private final ArrayList<Model> dataListFav = new ArrayList<>();
 
     public Database(Context context) {
         super(context, Conestant.DATABASE_NAME, null, Conestant.DATABASE_VERSION);
@@ -217,12 +218,12 @@ public class Database extends SQLiteOpenHelper {
                 shop.setOrganizationSMSContent(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_SMS_CONTENT)));
                 shop.setOrganizationYoutubeLink(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_YOUTUBE_LINK)));
 
-                dataListModel.add(shop);
+                dataListFav.add(shop);
 
             } while ((cursor.moveToNext()));
         }
         db.close();
-        return dataListModel;
+        return dataListFav;
     }
 
 }
