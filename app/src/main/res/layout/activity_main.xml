@@ -45,11 +45,12 @@
                 android:id="@+id/listViewMain"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="#4c5454"
-                android:dividerHeight="5dp"
                 android:background="@drawable/back_wood"
+                android:divider="#4c5454"
+                android:dividerHeight="1dp"
                 android:layoutAnimation="@anim/list_layout_controller"
-                android:persistentDrawingCache="animation|scrolling" />
+                android:persistentDrawingCache="animation|scrolling"
+                android:scrollbars="none" />
         </android.support.v4.widget.SwipeRefreshLayout>
 
     </RelativeLayout>

@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         getSupportActionBar().hide();
         Reload();
+
     }
 
     private void Reload() {
@@ -102,15 +103,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     View dialog = LayoutInflater.from(MainActivity.this).inflate(R.layout.cunfarm_dialog, null);
                     final TextView textView = (TextView) dialog.findViewById(R.id.dialog_text);
                     final Button done = (Button) dialog.findViewById(R.id.dialog_done);
-                    final Button cancel = (Button) dialog.findViewById(R.id.dialog_cancel);
-
 
                     final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setView(dialog);
 
                     textView.setText("انت على وشك التبرع بقيمه (" + model.getOrganizationMouny() + ") جنيه لصالح (" + model.getOrganizationName() + ") للإستمرار اضغط موافق و سيقوم البرنامج مباشرة بتحويلك الى شاشه الرسائل لإتمام عمليه التبرع ... او للإلغاء اضغط إلغاء");
 
-                    builder.setCancelable(false);
+                    builder.setCancelable(true);
                     alertDialog = builder.show();
 
                     done.setOnClickListener(new View.OnClickListener() {
@@ -125,40 +124,34 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                         }
                     });
 
-                    cancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            alertDialog.cancel();
-                        }
-                    });
 
                 }
             });
 
+//            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//                @Override
+//                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                    Model model = list.get(position);
+//                    Intent i = new Intent(MainActivity.this, DetailsActivity.class);
+//                    i.putExtra("organizationName", model.getOrganizationName());
+//                    i.putExtra("organizationInfo", model.getOrganizationInfo());
+//                    i.putExtra("organizationAcountNo", model.getOrganizationAccountNo());
+//                    i.putExtra("organizationPhone", model.getOrganizationPhone());
+//                    i.putExtra("organizationSMSContent", model.getOrganizationSMSContent());
+//                    i.putExtra("organizationSMS", model.getOrganizationSMS());
+//                    i.putExtra("organizationYoutubeLink", model.getOrganizationYoutubeLink());
+//                    i.putExtra("organizationYoutubeName", model.getOrganizationYoutubeName());
+//                    i.putExtra("organizationService", model.getOrganozationService());
+//                    i.putExtra("organizationMouny", model.getOrganizationMouny());
+//                    startActivity(i);
+//
+//                    Toast.makeText(getApplicationContext(), "hello " + position, Toast.LENGTH_LONG).show();
+//
+//                    return true;
+//                }
+//            });
 
-            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    Model model = list.get(position);
-                    Intent i = new Intent(MainActivity.this, DetailsActivity.class);
-                    i.putExtra("organizationName", model.getOrganizationName());
-                    i.putExtra("organizationInfo", model.getOrganizationInfo());
-                    i.putExtra("organizationAcountNo", model.getOrganizationAccountNo());
-                    i.putExtra("organizationPhone", model.getOrganizationPhone());
-                    i.putExtra("organizationSMSContent", model.getOrganizationSMSContent());
-                    i.putExtra("organizationSMS", model.getOrganizationSMS());
-                    i.putExtra("organizationYoutubeLink", model.getOrganizationYoutubeLink());
-                    i.putExtra("organizationYoutubeName", model.getOrganizationYoutubeName());
-                    i.putExtra("organizationService", model.getOrganozationService());
-                    i.putExtra("organizationMouny", model.getOrganizationMouny());
-                    startActivity(i);
-
-                    Toast.makeText(getApplicationContext(), "hello " + position, Toast.LENGTH_LONG).show();
-
-                    return true;
-                }
-            });
         } catch (Exception e) {
             Toast.makeText(MainActivity.this, "حدث خطأ اثناء الاتصال .. حاول مره اخرى", Toast.LENGTH_LONG).show();
         }
@@ -166,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(this, R.anim.list_layout_controller);
         listView.setLayoutAnimation(controller);
     }
-
 
     private void WebServiceDataBackEndLess() {
 
@@ -309,7 +301,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         getMenuInflater().inflate(R.menu.menu_main_activity, menu);
 
         ArrayList<Model> arrayFav = db.getFavourite();
-        Toast.makeText(MainActivity.this, arrayFav.size() + "", Toast.LENGTH_LONG).show();
         if (!(arrayFav.size() == 0)) {
             menu.findItem(R.id.action_favorite).setIcon(android.R.drawable.btn_star_big_on);
 
@@ -323,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
+        // automatically handle clicks on the Home/Up buttonall, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 

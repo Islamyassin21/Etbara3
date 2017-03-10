@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,7 +57,8 @@ public class FavourityActivity extends AppCompatActivity {
         buttonFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(FavourityActivity.this,MainActivity.class);
+                startActivity(intent);
                 //  startActivity(new Intent(FavourityActivity.this, MainActivity.class));
             }
         });
@@ -72,14 +74,14 @@ public class FavourityActivity extends AppCompatActivity {
                 View dialog = LayoutInflater.from(FavourityActivity.this).inflate(R.layout.cunfarm_dialog, null);
                 final TextView textView = (TextView) dialog.findViewById(R.id.dialog_text);
                 final Button done = (Button) dialog.findViewById(R.id.dialog_done);
-                final Button cancel = (Button) dialog.findViewById(R.id.dialog_cancel);
+             //   final Button cancel = (Button) dialog.findViewById(R.id.dialog_cancel);
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(FavourityActivity.this);
                 builder.setView(dialog);
 
                 textView.setText("انت على وشك التبرع بقيمه (" + model.getOrganizationMouny() + ") جنيه لصالح (" + model.getOrganizationName() + ") للإستمرار اضغط موافق و سيقوم البرنامج مباشرة بتحويلك الى شاشه الرسائل لإتمام عمليه التبرع");
 
-                builder.setCancelable(false);
+                builder.setCancelable(true);
                 alertDialog = builder.show();
 
                 final Database db = new Database(FavourityActivity.this);
@@ -94,18 +96,18 @@ public class FavourityActivity extends AppCompatActivity {
                     }
                 });
 
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        alertDialog.cancel();
-                        favAdapter.clear();
-                        getData();
-                        favAdapter = new FavoriteAdapter(FavourityActivity.this, R.layout.list_row, list);
-                        listFav.setAdapter(favAdapter);
-                        favAdapter.notifyDataSetChanged();
-                    }
-                });
+//                cancel.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                        alertDialog.cancel();
+//                        favAdapter.clear();
+//                        getData();
+//                        favAdapter = new FavoriteAdapter(FavourityActivity.this, R.layout.list_row, list);
+//                        listFav.setAdapter(favAdapter);
+//                        favAdapter.notifyDataSetChanged();
+//                    }
+//                });
 
 
 
@@ -149,5 +151,18 @@ public class FavourityActivity extends AppCompatActivity {
             textFav.setVisibility(View.VISIBLE);
             buttonFav.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if(keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            Intent intent = new Intent(FavourityActivity.this,MainActivity.class);
+
+            startActivity(intent);
+            return true;
+        }
+        return false;
     }
 }
