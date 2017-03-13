@@ -58,7 +58,9 @@ public class FavourityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(FavourityActivity.this,MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                finish();
                 //  startActivity(new Intent(FavourityActivity.this, MainActivity.class));
             }
         });
@@ -159,8 +161,9 @@ public class FavourityActivity extends AppCompatActivity {
         if(keyCode == KeyEvent.KEYCODE_BACK)
         {
             Intent intent = new Intent(FavourityActivity.this,MainActivity.class);
-
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
             return true;
         }
         return false;

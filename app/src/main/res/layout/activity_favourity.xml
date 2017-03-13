@@ -39,7 +39,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:textSize="20sp"
-            android:text="اضـــافه"
+            android:text="اضافه"
             android:visibility="gone" />
     </LinearLayout>
 </RelativeLayout>

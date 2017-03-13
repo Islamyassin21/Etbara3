@@ -36,6 +36,7 @@
             android:layout_gravity="center"
             android:background="@drawable/button_browen"
             android:text="موافق"
-            android:textSize="22sp" />
+            android:textColor="#ffffff"
+            android:textSize="28sp" />
     </LinearLayout>
 </LinearLayout>

@@ -1,7 +1,9 @@
 package com.example.islam.etbara3.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,8 @@ import com.example.islam.etbara3.R;
 
 import java.util.Collections;
 import java.util.List;
+
+import static weborb.util.ThreadContext.context;
 
 /**
  * Created by islam on 27/01/2017.
@@ -108,19 +112,29 @@ public class ListAdapter extends ArrayAdapter<Model> {
             public void onClick(View v) {
 
                 boolean exist = db.OrganizationExistInFav(finalHolder.model.getOrganizationID());
-
+                Intent intent = new Intent("Pitanja_cigle");
                 if (exist) {
 
                     db.deleteOrganizationFav(finalHolder.model);
                     finalHolder.mFavorite.setImageResource(android.R.drawable.btn_star_big_off);
                     Toast.makeText(activity, "تم الازاله من المفضله", Toast.LENGTH_SHORT).show();
 
+                    int count = db.getOrganizationCountFav();
+                    if (count == 0) {
+                        intent.putExtra("action", "remove");
+                        LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
+                    }
 
                 } else {
                     db.AddOrganizationFavorite(finalHolder.model);
                     finalHolder.mFavorite.setImageResource(android.R.drawable.btn_star_big_on);
                     Toast.makeText(activity, "تم الاضافه الى المفضله", Toast.LENGTH_SHORT).show();
 
+                    int count = db.getOrganizationCountFav();
+                    if (count > 0) {
+                        intent.putExtra("action", "add");
+                        LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
+                    }
                 }
             }
         });

@@ -1,13 +1,18 @@
 package com.example.islam.etbara3;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,6 +57,23 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private ProgressDialog progressDialog;
     private SharedPreferences sharedPreferences;
     private Database db = new Database(MainActivity.this);
+    private Menu mMenu;
+
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getStringExtra("action");
+            if (action.equals("remove")) {
+
+                mMenu.findItem(R.id.action_favorite).setIcon(android.R.drawable.btn_star_big_off);
+
+            } else {
+
+                mMenu.findItem(R.id.action_favorite).setIcon(android.R.drawable.btn_star_big_on);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         getSupportActionBar().hide();
         Reload();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter("Pitanja_cigle"));
 
     }
 
@@ -107,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setView(dialog);
 
-                    textView.setText("انت على وشك التبرع بقيمه (" + model.getOrganizationMouny() + ") جنيه لصالح (" + model.getOrganizationName() + ") للإستمرار اضغط موافق و سيقوم البرنامج مباشرة بتحويلك الى شاشه الرسائل لإتمام عمليه التبرع ... او للإلغاء اضغط إلغاء");
+                    textView.setText("انت على وشك التبرع بقيمه (" + model.getOrganizationMouny() + ") جنيه لصالح (" + model.getOrganizationName() + ") للإستمرار اضغط موافق و سيقوم البرنامج مباشرة بتحويلك الى شاشه الرسائل لإتمام عمليه التبرع ");
 
                     builder.setCancelable(true);
                     alertDialog = builder.show();
@@ -119,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + model.getOrganizationSMS()));
                             i.putExtra("sms_body", model.getOrganizationSMSContent() + "");
                             startActivity(i);
+                            finish();
 
 
                         }
@@ -300,6 +325,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_activity, menu);
 
+        mMenu = menu;
+
         ArrayList<Model> arrayFav = db.getFavourite();
         if (!(arrayFav.size() == 0)) {
             menu.findItem(R.id.action_favorite).setIcon(android.R.drawable.btn_star_big_on);
@@ -322,6 +349,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_favorite) {
+            swipeRefreshLayout.setRefreshing(false);
             Intent i = new Intent(MainActivity.this, FavourityActivity.class);
             startActivity(i);
         }
@@ -357,5 +385,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 db.deleteOrganizationFav(model);
             }
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+            this.finish();
+            return true;
+        }
+        return false;
     }
 }

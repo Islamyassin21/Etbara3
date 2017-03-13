@@ -133,6 +133,13 @@ public class Database extends SQLiteOpenHelper {
         return cursor.getCount();
     }
 
+    public int getOrganizationCountFav() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(Conestant.TABLE_FAV, null, null, null, null, null, Conestant.ORGANIZATION_ID);
+
+        return cursor.getCount();
+    }
+
     public void AddOrganizationFavorite(Model model) {
 
         SQLiteDatabase db = this.getWritableDatabase();
