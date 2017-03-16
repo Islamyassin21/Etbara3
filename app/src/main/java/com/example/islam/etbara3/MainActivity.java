@@ -143,8 +143,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + model.getOrganizationSMS()));
                             i.putExtra("sms_body", model.getOrganizationSMSContent() + "");
                             startActivity(i);
-                            finish();
-
+                            alertDialog.cancel();
 
                         }
                     });
@@ -196,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void handleResponse(BackendlessCollection<Model> response) {
                 //  BackendlessCollection<Model> collection = response;
+                listAdapter.clear();
                 list.addAll(response.getCurrentPage());
 
                 if (db.getOrganizationCount() == list.size()) {
@@ -361,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void onRefresh() {
 
 
-        listView.setVisibility(View.INVISIBLE);
+//         listView.setVisibility(View.INVISIBLE);
 //        //Save where you last were in the list.
 //        int index = listView.getFirstVisiblePosition();
 //        View v = listView.getChildAt(0);
@@ -373,9 +373,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //        //Prevents the scroll to the new item at the new position
 //        listView.setSelectionFromTop(index, top);
 
-        list.clear();
+
         WebServiceDataBackEndLess();
-        listView.setVisibility(View.VISIBLE);
+        //     listView.setVisibility(View.VISIBLE);
         //   Model model = new Model();
         ArrayList<Model> check = db.getFavourite();
         for (int i = 0; i < check.size(); i++) {
