@@ -5,10 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -52,10 +51,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private ListView listView;
     private ArrayList<Model> arrayAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    //  private ProgressDialog progressDialog;
     private ImageView connection;
     private ProgressDialog progressDialog;
-    private SharedPreferences sharedPreferences;
     private Database db = new Database(MainActivity.this);
     private Menu mMenu;
 
@@ -73,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 mMenu.findItem(R.id.action_favorite).setIcon(android.R.drawable.btn_star_big_on);
             }
         }
-    };
+    }; // To control of action bar by item om list view
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +79,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         getSupportActionBar().hide();
         Reload();
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter("Pitanja_cigle"));
+      //  getSupportActionBar().setTitle("القائمه الرئيسيه");
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar_main);
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter("Pitanja_cigle")); // run brod cast receiver
 
     }
 
@@ -111,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             //   String data = sharedPreferences.getString("data", "");
 
 
-            if (db.getOrganizationCount() <= 0) {
+            if (db.getOrganizationCount() == 0) {
                 WebServiceDataBackEndLess();
             } else {
                 getDataFromDatabase();
@@ -188,6 +187,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         QueryOptions queryOptions = new QueryOptions();
         queryOptions.setRelated(Arrays.asList("organizationName"));
+        queryOptions.addSortByOption("organizationID");
 
         BackendlessDataQuery query = new BackendlessDataQuery(queryOptions);
         query.setPageSize(100);
@@ -195,7 +195,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void handleResponse(BackendlessCollection<Model> response) {
                 //  BackendlessCollection<Model> collection = response;
-                listAdapter.clear();
+
+                if (list.size() != 0) {
+                    listAdapter.clear();
+                }
+
+
                 list.addAll(response.getCurrentPage());
 
                 if (db.getOrganizationCount() == list.size()) {
@@ -237,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 // Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                 progressDialog.cancel();
                 getSupportActionBar().show();
+                getSupportActionBar().setTitle("القائمه الرئيسيه");
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
                 listAdapter = new ListAdapter(MainActivity.this, R.layout.list_row, list);
                 listView.setAdapter(listAdapter);
@@ -245,6 +251,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             @Override
             public void handleFault(BackendlessFault fault) {
+
+                int count = db.getOrganizationCount();
+                if (count != 0) {
+                    listAdapter.clear();
+                } // to solve problem of refresh data with disconnect
+
                 Toast.makeText(MainActivity.this, "حدث خطأ اثناء الاتصال .. تأكد من اتصالك بالانترنت", Toast.LENGTH_LONG).show();
                 progressDialog.cancel();
                 //    swipeRefreshLayout.setVisibility(View.INVISIBLE);
@@ -347,11 +359,20 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            Intent i = new Intent(MainActivity.this, SettingActivity.class);
+            startActivity(i);
             return true;
         } else if (id == R.id.action_favorite) {
-            swipeRefreshLayout.setRefreshing(false);
-            Intent i = new Intent(MainActivity.this, FavourityActivity.class);
-            startActivity(i);
+            int favCount = db.getOrganizationCountFav();
+            if (favCount != 0) {
+                swipeRefreshLayout.setRefreshing(false);
+                Intent i = new Intent(MainActivity.this, FavourityActivity.class);
+                startActivity(i);
+                finish();
+            } else {
+                Toast.makeText(MainActivity.this, "لا توجد بيانات في قائمه المفضله", Toast.LENGTH_LONG).show();
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -359,7 +380,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-
 
 //         listView.setVisibility(View.INVISIBLE);
 //        //Save where you last were in the list.
@@ -372,7 +392,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //
 //        //Prevents the scroll to the new item at the new position
 //        listView.setSelectionFromTop(index, top);
-
 
         WebServiceDataBackEndLess();
         //     listView.setVisibility(View.VISIBLE);
@@ -396,4 +415,5 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         }
         return false;
     }
+
 }

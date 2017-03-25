@@ -1,8 +1,13 @@
 package com.example.islam.etbara3;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,11 +48,15 @@ public class FavourityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favourity);
 
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiverFav, new IntentFilter("islam_yassin"));
+
         listFav = (ListView) findViewById(R.id.listViewFav);
         textFav = (TextView) findViewById(R.id.text_fav);
         buttonFav = (Button) findViewById(R.id.button_fav);
 
-
+        //getSupportActionBar().setTitle("المفضله");
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar_fav);
         getData();
 
         favAdapter = new FavoriteAdapter(FavourityActivity.this, R.layout.list_row, list);
@@ -57,7 +66,7 @@ public class FavourityActivity extends AppCompatActivity {
         buttonFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FavourityActivity.this,MainActivity.class);
+                Intent intent = new Intent(FavourityActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
@@ -76,7 +85,7 @@ public class FavourityActivity extends AppCompatActivity {
                 View dialog = LayoutInflater.from(FavourityActivity.this).inflate(R.layout.cunfarm_dialog, null);
                 final TextView textView = (TextView) dialog.findViewById(R.id.dialog_text);
                 final Button done = (Button) dialog.findViewById(R.id.dialog_done);
-             //   final Button cancel = (Button) dialog.findViewById(R.id.dialog_cancel);
+                //   final Button cancel = (Button) dialog.findViewById(R.id.dialog_cancel);
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(FavourityActivity.this);
                 builder.setView(dialog);
@@ -110,8 +119,6 @@ public class FavourityActivity extends AppCompatActivity {
 //                        favAdapter.notifyDataSetChanged();
 //                    }
 //                });
-
-
 
 
             }
@@ -156,11 +163,9 @@ public class FavourityActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if(keyCode == KeyEvent.KEYCODE_BACK)
-        {
-            Intent intent = new Intent(FavourityActivity.this,MainActivity.class);
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(FavourityActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
@@ -168,4 +173,21 @@ public class FavourityActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    private BroadcastReceiver broadcastReceiverFav = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getStringExtra("fav");
+            if (action.equals("fav_remove")) {
+
+//                listFav.setVisibility(View.INVISIBLE);
+//                textFav.setVisibility(View.VISIBLE);
+//                buttonFav.setVisibility(View.VISIBLE);
+                Intent i = new Intent(FavourityActivity.this, MainActivity.class);
+                startActivity(i);
+                finish();
+
+            }
+        }
+    };
 }

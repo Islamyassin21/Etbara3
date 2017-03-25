@@ -4,7 +4,7 @@
     android:id="@+id/activity_favourity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back_wood"
+    android:background="@drawable/back_wood_2"
     tools:context="com.example.islam.etbara3.FavourityActivity">
 
     <ListView
@@ -29,8 +29,9 @@
             android:gravity="center"
             android:text="لا توجد بيانات في قائمه المفضله"
             android:textColor="#ccc"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:visibility="gone" />
+
 
         <Button
             android:id="@+id/button_fav"
@@ -38,8 +39,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:textSize="20sp"
-            android:text="اضافه"
+            android:text="إضافه"
+            android:textSize="25sp"
             android:visibility="gone" />
     </LinearLayout>
+
 </RelativeLayout>

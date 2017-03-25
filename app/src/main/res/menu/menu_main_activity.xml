@@ -4,17 +4,17 @@
 
 
     <item
-        android:id="@+id/action_settings"
-        android:icon="@drawable/action_setting"
-        android:orderInCategory="200"
-        app:showAsAction="always"
-        android:title="الاعدادات" />
-
-    <item
         android:id="@+id/action_favorite"
         android:icon="@drawable/favorite"
         android:orderInCategory="100"
         app:showAsAction="always"
         android:title="المفضله" />
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/action_setting"
+        android:orderInCategory="200"
+        app:showAsAction="always"
+        android:visible="false"
+        android:title="الاعدادات" />
 
 </menu>
