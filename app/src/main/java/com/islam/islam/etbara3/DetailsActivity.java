@@ -1,4 +1,4 @@
-package com.example.islam.etbara3;
+package com.islam.islam.etbara3;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -20,8 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.islam.etbara3.Adapter.YoutubeAdapter;
-import com.example.islam.etbara3.Model.Model;
+import com.islam.islam.etbara3.Adapter.YoutubeAdapter;
+import com.islam.islam.etbara3.Model.Model;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

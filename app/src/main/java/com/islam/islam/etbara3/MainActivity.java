@@ -1,10 +1,12 @@
-package com.example.islam.etbara3;
+package com.islam.islam.etbara3;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -32,9 +34,9 @@ import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.BackendlessDataQuery;
 import com.backendless.persistence.QueryOptions;
-import com.example.islam.etbara3.Adapter.ListAdapter;
-import com.example.islam.etbara3.Database.Database;
-import com.example.islam.etbara3.Model.Model;
+import com.islam.islam.etbara3.Adapter.ListAdapter;
+import com.islam.islam.etbara3.Database.Database;
+import com.islam.islam.etbara3.Model.Model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private ProgressDialog progressDialog;
     private Database db = new Database(MainActivity.this);
     private Menu mMenu;
-
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         getSupportActionBar().hide();
         Reload();
-      //  getSupportActionBar().setTitle("القائمه الرئيسيه");
+
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar_main);
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter("Pitanja_cigle")); // run brod cast receiver
@@ -125,27 +126,27 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     final Model model = listAdapter.getItem(position);
                     View dialog = LayoutInflater.from(MainActivity.this).inflate(R.layout.cunfarm_dialog, null);
                     final TextView textView = (TextView) dialog.findViewById(R.id.dialog_text);
-                    final Button done = (Button) dialog.findViewById(R.id.dialog_done);
+                    final Button send = (Button) dialog.findViewById(R.id.send);
 
                     final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setView(dialog);
-
+                    alertDialog = builder.create();
                     textView.setText("انت على وشك التبرع بقيمه (" + model.getOrganizationMouny() + ") جنيه لصالح (" + model.getOrganizationName() + ") للإستمرار اضغط موافق و سيقوم البرنامج مباشرة بتحويلك الى شاشه الرسائل لإتمام عمليه التبرع ");
 
-                    builder.setCancelable(true);
-                    alertDialog = builder.show();
-
-                    done.setOnClickListener(new View.OnClickListener() {
+                    send.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
                             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + model.getOrganizationSMS()));
                             i.putExtra("sms_body", model.getOrganizationSMSContent() + "");
                             startActivity(i);
                             alertDialog.cancel();
-
                         }
                     });
+
+                    builder.setCancelable(true);
+                    alertDialog = builder.show();
+
+                      alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
 
                 }
@@ -211,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     Toast.makeText(getApplicationContext(), "تم اضافه( " + count + ") مؤسسه جديده", Toast.LENGTH_LONG).show();
                     for (int i = 0; i < list.size(); i++) {
                         Model model = list.get(i);
+
                         if (!db.OrganizationExist(model.getOrganizationID())) {
                             db.AddOrganization(model);
                         }
@@ -316,6 +318,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 model.setOrganizationName(arrayAdapter.get(i).getOrganizationName());
                 model.setOrganizationPhone(arrayAdapter.get(i).getOrganizationPhone());
                 model.setOrganizationPhoto(arrayAdapter.get(i).getOrganizationPhoto());
+
                 model.setOrganozationService(arrayAdapter.get(i).getOrganozationService());
 
                 list.add(model);

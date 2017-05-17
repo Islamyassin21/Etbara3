@@ -1,10 +1,12 @@
-package com.example.islam.etbara3;
+package com.islam.islam.etbara3;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
@@ -13,24 +15,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.islam.etbara3.Adapter.FavoriteAdapter;
-import com.example.islam.etbara3.Adapter.ListAdapter;
-import com.example.islam.etbara3.Database.Database;
-import com.example.islam.etbara3.Model.Model;
+import com.islam.islam.etbara3.Adapter.FavoriteAdapter;
+import com.islam.islam.etbara3.Database.Database;
+import com.islam.islam.etbara3.Model.Model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FavourityActivity extends AppCompatActivity {
 
@@ -54,7 +49,6 @@ public class FavourityActivity extends AppCompatActivity {
         textFav = (TextView) findViewById(R.id.text_fav);
         buttonFav = (Button) findViewById(R.id.button_fav);
 
-        //getSupportActionBar().setTitle("المفضله");
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar_fav);
         getData();
@@ -84,28 +78,29 @@ public class FavourityActivity extends AppCompatActivity {
                 final Model model = favAdapter.getItem(position);
                 View dialog = LayoutInflater.from(FavourityActivity.this).inflate(R.layout.cunfarm_dialog, null);
                 final TextView textView = (TextView) dialog.findViewById(R.id.dialog_text);
-                final Button done = (Button) dialog.findViewById(R.id.dialog_done);
-                //   final Button cancel = (Button) dialog.findViewById(R.id.dialog_cancel);
+                final Button send = (Button) dialog.findViewById(R.id.send);
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(FavourityActivity.this);
                 builder.setView(dialog);
 
                 textView.setText("انت على وشك التبرع بقيمه (" + model.getOrganizationMouny() + ") جنيه لصالح (" + model.getOrganizationName() + ") للإستمرار اضغط موافق و سيقوم البرنامج مباشرة بتحويلك الى شاشه الرسائل لإتمام عمليه التبرع");
 
-                builder.setCancelable(true);
-                alertDialog = builder.show();
-
-                final Database db = new Database(FavourityActivity.this);
-
-                done.setOnClickListener(new View.OnClickListener() {
+                send.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + model.getOrganizationSMS()));
                         i.putExtra("sms_body", model.getOrganizationSMSContent() + "");
                         startActivity(i);
+                        alertDialog.cancel();
                     }
                 });
+                builder.setCancelable(true);
+                alertDialog = builder.show();
+
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                final Database db = new Database(FavourityActivity.this);
+
+
 
 //                cancel.setOnClickListener(new View.OnClickListener() {
 //                    @Override

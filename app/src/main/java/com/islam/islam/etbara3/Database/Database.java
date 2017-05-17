@@ -1,4 +1,4 @@
-package com.example.islam.etbara3.Database;
+package com.islam.islam.etbara3.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.islam.etbara3.Model.Model;
+import com.islam.islam.etbara3.Model.Model;
 
 import java.util.ArrayList;
 
@@ -37,7 +37,7 @@ public class Database extends SQLiteOpenHelper {
                 Conestant.ORGANIZATION_MOUNY + " TEXT," +
                 Conestant.ORGANIZATION_NAME + " TEXT," +
                 Conestant.ORGANIZATION_PHONE + " TEXT," +
-                Conestant.ORGANIZATION_PHOTO + " BLOB," +
+                Conestant.ORGANIZATION_PHOTO + " TEXT," +
                 Conestant.ORGANIZATION_SERVICE + " TEXT," +
                 Conestant.ORGANIZATION_SMS + " TEXT," +
                 Conestant.ORGANIZATION_YOUTUBE_LINK + " TEXT," +
@@ -116,6 +116,7 @@ public class Database extends SQLiteOpenHelper {
         values.put(Conestant.ORGANIZATION_NAME, model.getOrganizationName());
         values.put(Conestant.ORGANIZATION_PHONE, model.getOrganizationPhone());
         values.put(Conestant.ORGANIZATION_PHOTO, model.getOrganizationPhoto());
+        Log.v("kjhgdui", String.valueOf(model.getOrganizationPhoto()));
         values.put(Conestant.ORGANIZATION_SERVICE, model.getOrganozationService());
         values.put(Conestant.ORGANIZATION_SMS, model.getOrganizationSMS());
         values.put(Conestant.ORGANIZATION_SMS_CONTENT, model.getOrganizationSMSContent());
@@ -189,7 +190,7 @@ public class Database extends SQLiteOpenHelper {
                 shop.setOrganizationYoutubeName(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_YOUTUBE_NAME)));
                 shop.setOrganizationInfo(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_INFO)));
                 shop.setOrganizationMouny(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_MOUNY)));
-                shop.setOrganizationPhoto(cursor.getBlob(cursor.getColumnIndex(Conestant.ORGANIZATION_PHOTO)));
+                shop.setOrganizationPhoto(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_PHOTO)));
                 shop.setOrganizationPhone(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_PHONE)));
                 shop.setOrganozationService(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_SERVICE)));
                 shop.setOrganizationSMS(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_SMS)));
@@ -218,7 +219,7 @@ public class Database extends SQLiteOpenHelper {
                 shop.setOrganizationYoutubeName(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_YOUTUBE_NAME)));
                 shop.setOrganizationInfo(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_INFO)));
                 shop.setOrganizationMouny(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_MOUNY)));
-                shop.setOrganizationPhoto(cursor.getBlob(cursor.getColumnIndex(Conestant.ORGANIZATION_PHOTO)));
+                shop.setOrganizationPhoto(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_PHOTO)));
                 shop.setOrganizationPhone(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_PHONE)));
                 shop.setOrganozationService(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_SERVICE)));
                 shop.setOrganizationSMS(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_SMS)));

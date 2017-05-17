@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back_wood_2"
     android:orientation="vertical"
-    tools:context="com.example.islam.etbara3.MainActivity">
+    android:background="#ffffff"
+    tools:context="com.islam.islam.etbara3.MainActivity">
 
 
     <RelativeLayout
@@ -45,8 +45,7 @@
                 android:id="@+id/listViewMain"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/back_wood_2"
-                android:divider="#4c5454"
+                android:divider="#0a8754"
                 android:dividerHeight="1dp"
                 android:layoutAnimation="@anim/list_layout_controller"
                 android:persistentDrawingCache="animation|scrolling"

@@ -4,8 +4,7 @@
     android:id="@+id/activity_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/blue"
-    tools:context="com.example.islam.etbara3.DetailsActivity">
+    tools:context="com.islam.islam.etbara3.DetailsActivity">
 
     <ScrollView
         android:id="@+id/scroll"

@@ -3,10 +3,17 @@
     android:shape="rectangle">
 
     <corners
-        android:bottomLeftRadius="2dp"
-        android:bottomRightRadius="2dp"
+        android:bottomLeftRadius="100dp"
+        android:bottomRightRadius="1dp"
         android:topLeftRadius="2dp"
-        android:topRightRadius="2dp" />
-    <stroke android:width="2dp" android:color="#ccc"/>
+        android:topRightRadius="100dp" />
+
+
+    <solid android:color="#ffffff" />
+
+    <gradient
+        android:centerColor="#ffffff"
+        android:endColor="#88be77"
+        android:startColor="#88be77" />
 
 </shape>

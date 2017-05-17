@@ -4,8 +4,7 @@
     android:id="@+id/activity_favourity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back_wood_2"
-    tools:context="com.example.islam.etbara3.FavourityActivity">
+    tools:context="com.islam.islam.etbara3.FavourityActivity">
 
     <ListView
         android:id="@+id/listViewFav"

@@ -1,4 +1,4 @@
-package com.example.islam.etbara3;
+package com.islam.islam.etbara3;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;

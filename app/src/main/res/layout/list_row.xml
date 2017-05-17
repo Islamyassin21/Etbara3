@@ -24,7 +24,7 @@
             <LinearLayout
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_width="match_parent"
+                android:layout_width="40dp"
                 android:layout_height="0dp"
                 android:layout_weight="0.7"
                 android:background="@drawable/coin_icon"
@@ -37,8 +37,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="10"
-                    android:textSize="29sp" />
-
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -65,8 +64,8 @@
                 android:paddingLeft="5dp"
                 android:gravity="center_vertical"
                 android:text="مؤسسه مرسال"
-                android:textColor="#f7b32b"
-                android:textSize="22sp"
+                android:textColor="#000000"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -76,7 +75,7 @@
                 android:layout_weight="1"
                 android:text="علاج"
                 android:textSize="18sp"
-                android:textColor="#e3e4db" />
+                android:textColor="#f7b32b" />
         </LinearLayout>
 
         <RelativeLayout

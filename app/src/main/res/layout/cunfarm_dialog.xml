@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#59432e"
+    android:background="@drawable/border"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="35dp">
 
     <TextView
         android:id="@+id/dialog_text"
@@ -12,31 +12,22 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:text="dsaf"
-        android:textColor="#f7b32b"
+        android:textColor="#000000"
         android:textSize="20sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_margin="10dp"
         android:layout_marginTop="5dp"
-        android:background="#ccc" />
+        android:background="@drawable/border" />
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/dialog_done"
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@drawable/button_browen"
-            android:text="موافق"
-            android:textColor="#ffffff"
-            android:textSize="28sp" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/send"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button"
+        android:text="إرسال"
+        android:textColor="#fff8f0"
+        android:textSize="27sp" />
 </LinearLayout>
