@@ -19,8 +19,10 @@ public class Database extends SQLiteOpenHelper {
 
     public String CREATE_FAVE_TABLE;
     public String CREATE_ORGANIZATION_TABLE;
+    public String CREATE_ORGANIZATION_PHOTO;
     private final ArrayList<Model> dataListModel = new ArrayList<>();
     private final ArrayList<Model> dataListFav = new ArrayList<>();
+    private byte[] photo;
 
     public Database(Context context) {
         super(context, Conestant.DATABASE_NAME, null, Conestant.DATABASE_VERSION);
@@ -60,11 +62,53 @@ public class Database extends SQLiteOpenHelper {
                 Conestant.ORGANIZATION_YOUTUBE_NAME + " TEXT," +
                 Conestant.ORGANIZATION_SMS_CONTENT + " TEXT);";
         db.execSQL(CREATE_FAVE_TABLE);
+
+        CREATE_ORGANIZATION_PHOTO = "CREATE TABLE " + Conestant.TABLE_Photo +
+                "(" +
+                Conestant.ORGANIZATION_ID + " INTEGER," +
+                Conestant.ORGANIZATION_PHOTO + " BLOB);";
+        db.execSQL(CREATE_ORGANIZATION_PHOTO);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    public void AddOrganizationPhoto(int id, byte[] photo) {
+
+        Log.v("photoAdd", String.valueOf(photo));
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Conestant.ORGANIZATION_ID, id);
+        values.put(Conestant.ORGANIZATION_PHOTO, photo);
+        db.insert(Conestant.TABLE_Photo, null, values);
+        db.close();
+
+    }
+
+    public byte[] getOrganizationPhoto(int id) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(Conestant.TABLE_Photo, null, Conestant.ORGANIZATION_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            photo = cursor.getBlob(cursor.getColumnIndex(Conestant.ORGANIZATION_PHOTO));
+            Log.v("photoGet", String.valueOf(photo));
+        }
+        return photo;
+    }
+
+    public void deleteOrganizationPhoto() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(Conestant.TABLE_Photo, null, null);
+        db.close();
+    }
+
+    public void deleteOrganizationFavPhoto(Model model) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(Conestant.TABLE_Photo, Conestant.ORGANIZATION_ID + "=" + model.getOrganizationID(), null);
+        db.close();
     }
 
     public boolean OrganizationExistInFav(int organizationID) {

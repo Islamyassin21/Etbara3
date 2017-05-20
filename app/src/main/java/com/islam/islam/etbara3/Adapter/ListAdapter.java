@@ -2,8 +2,11 @@ package com.islam.islam.etbara3.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +72,7 @@ public class ListAdapter extends ArrayAdapter<Model> {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View row = convertView;
         ViewHolder holder = null;
+        db = new Database(activity);
 
         if (row == null || (row.getTag()) == null) {
 
@@ -95,11 +99,17 @@ public class ListAdapter extends ArrayAdapter<Model> {
         holder.mOrganizationService.setText(holder.model.getOrganozationService());
         holder.mKema.setText(holder.model.getOrganizationMouny());
 
+        byte[] photo = db.getOrganizationPhoto(holder.model.getOrganizationID());
+        Log.v("kdashgh", String.valueOf(photo));
+        if (photo != null) {
+            Bitmap bmp = BitmapFactory.decodeByteArray(photo, 0, photo.length);
+            holder.mOrganizationImage.setImageBitmap(bmp);
+        }
         holder.mFavorite.setImageResource(android.R.drawable.btn_star_big_off);
 
-        LoadImageFromURL(url + holder.model.getOrganizationPhoto(), holder);
+        // LoadImageFromURL(url + holder.model.getOrganizationPhoto(), holder);
 
-        db = new Database(activity);
+
         boolean exist = db.OrganizationExistInFav(holder.model.getOrganizationID());
 
         if (exist)
@@ -149,8 +159,8 @@ public class ListAdapter extends ArrayAdapter<Model> {
 
     private void LoadImageFromURL(String url, ListAdapter.ViewHolder holder) {
 
-        Picasso.with(holder.mOrganizationImage.getContext()).load(url).placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher).into(holder.mOrganizationImage);
+        Picasso.with(holder.mOrganizationImage.getContext()).load(url).placeholder(R.drawable.no_iamge_available)
+                .error(R.drawable.no_iamge_available).into(holder.mOrganizationImage);
     }
 
     class ViewHolder {

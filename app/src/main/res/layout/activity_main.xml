@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/conectionfail"
+            android:src="@drawable/refresh"
             android:visibility="gone" />
 
         <TextView
@@ -45,8 +45,9 @@
                 android:id="@+id/listViewMain"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="#0a8754"
-                android:dividerHeight="1dp"
+                android:divider="#e1e1e1"
+
+                android:dividerHeight="10dp"
                 android:layoutAnimation="@anim/list_layout_controller"
                 android:persistentDrawingCache="animation|scrolling"
                 android:scrollbars="none" />

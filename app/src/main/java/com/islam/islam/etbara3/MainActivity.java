@@ -5,15 +5,20 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,6 +43,12 @@ import com.islam.islam.etbara3.Adapter.ListAdapter;
 import com.islam.islam.etbara3.Database.Database;
 import com.islam.islam.etbara3.Model.Model;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -131,8 +142,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setView(dialog);
                     alertDialog = builder.create();
-                    textView.setText("انت على وشك التبرع بقيمه (" + model.getOrganizationMouny() + ") جنيه لصالح (" + model.getOrganizationName() + ") للإستمرار اضغط موافق و سيقوم البرنامج مباشرة بتحويلك الى شاشه الرسائل لإتمام عمليه التبرع ");
-
+                    textView.setText("سوف تقوم بالتبرع بقيمه (" + model.getOrganizationMouny() + ") جنيه الى (" + model.getOrganizationName() + ") للإستمرار اضغط ارسال ليتم تحويلك الى شاشه الرسائل لإتمام عمليه التبرع ");
+                    //   textView.setText("سوف تقوم بالتبرع بقيمه(" + model.getOrganizationMouny() + ")الى (" + model.getOrganizationName() + "للإستمرار اضغط ارسال ليتم تحويلك الى شاشه الرسائل");
                     send.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -146,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     builder.setCancelable(true);
                     alertDialog = builder.show();
 
-                      alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
 
                 }
@@ -213,18 +224,41 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     for (int i = 0; i < list.size(); i++) {
                         Model model = list.get(i);
 
-                        if (!db.OrganizationExist(model.getOrganizationID())) {
-                            db.AddOrganization(model);
+                        try {
+                            URL url = new URL("https://api.backendless.com/2836510F-E02A-936B-FF67-2C3E68F6D400/v1/files/image/" + model.getOrganizationPhoto());
+
+                            if (!db.OrganizationExist(model.getOrganizationID())) {
+                                db.AddOrganization(model);
+
+                                (new DownloadTask(url, model.getOrganizationID())).execute();
+
+                            }
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
                         }
+
                     }
                 } else {
                     int count = -(list.size() - db.getOrganizationCount());
                     Toast.makeText(getApplicationContext(), "تم ازاله( " + count + ") مؤسسه", Toast.LENGTH_LONG).show();
                     db.deleteOrganization();
+                    db.deleteOrganizationPhoto();
                     for (int i = 0; i < list.size(); i++) {
                         Model model = list.get(i);
                         if (!db.OrganizationExist(model.getOrganizationID())) {
-                            db.AddOrganization(model);
+                            try {
+                                URL url = new URL("https://api.backendless.com/2836510F-E02A-936B-FF67-2C3E68F6D400/v1/files/image/" + model.getOrganizationPhoto());
+                                Log.v("photoURL", String.valueOf(url));
+
+                                if (!db.OrganizationExist(model.getOrganizationID())) {
+                                    db.AddOrganization(model);
+
+                                    (new DownloadTask(url, model.getOrganizationID())).execute();
+
+                                }
+                            } catch (MalformedURLException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
 
@@ -234,10 +268,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                         boolean exist = db.OrganizationExist(model.getOrganizationID());
                         if (!exist) {
                             db.deleteOrganizationFav(model);
+                            db.deleteOrganizationFavPhoto(model);
                         }
                     }
-
-
                 }
                 //  textView.setText("");
 
@@ -259,17 +292,19 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     listAdapter.clear();
                 } // to solve problem of refresh data with disconnect
 
-                Toast.makeText(MainActivity.this, "حدث خطأ اثناء الاتصال .. تأكد من اتصالك بالانترنت", Toast.LENGTH_LONG).show();
-                progressDialog.cancel();
+
                 //    swipeRefreshLayout.setVisibility(View.INVISIBLE);
 
                 if (db.getOrganizationCount() == 0) {
+                    swipeRefreshLayout.setVisibility(View.INVISIBLE);
                     connection.setVisibility(View.VISIBLE);
                     textView.setVisibility(View.VISIBLE);
                 }
                 getDataFromDatabase();
                 swipeRefreshLayout.setRefreshing(false);
 
+                Toast.makeText(MainActivity.this, "حدث خطأ اثناء الاتصال .. تأكد من اتصالك بالانترنت", Toast.LENGTH_SHORT).show();
+                progressDialog.cancel();
 
                 connection.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -285,7 +320,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     @Override
                     public void onClick(View v) {
                         swipeRefreshLayout.setVisibility(View.VISIBLE);
-
                         connection.setVisibility(View.INVISIBLE);
                         textView.setVisibility(View.INVISIBLE);
                         Reload();
@@ -407,6 +441,79 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 db.deleteOrganizationFav(model);
             }
         }
+    }
+
+    public void getImage(URL url, int id) {
+        try {
+
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            int responceCode = httpURLConnection.getResponseCode();
+            if (responceCode == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = httpURLConnection.getInputStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                inputStream.close();
+                Log.v("photoByte", String.valueOf(byteArray));
+                db.AddOrganizationPhoto(id, byteArray);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private class DownloadTask extends AsyncTask<Void, Void, byte[]> {
+
+        int mId;
+        URL mUrl;
+
+        Database db = new Database(MainActivity.this);
+
+        public DownloadTask(URL url, int id) {
+
+            this.mId = id;
+            this.mUrl = url;
+        }
+
+        @Override
+        protected byte[] doInBackground(Void... voids) {
+
+            try {
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) mUrl.openConnection();
+                int responceCode = httpURLConnection.getResponseCode();
+                if (responceCode == HttpURLConnection.HTTP_OK) {
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    inputStream.close();
+                    Log.v("photoByte", String.valueOf(byteArray));
+                    return byteArray;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(byte[] bytes) {
+            super.onPostExecute(bytes);
+            db.AddOrganizationPhoto(mId, bytes);
+
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 
     @Override

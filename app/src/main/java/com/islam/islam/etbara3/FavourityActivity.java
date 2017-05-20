@@ -83,7 +83,7 @@ public class FavourityActivity extends AppCompatActivity {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(FavourityActivity.this);
                 builder.setView(dialog);
 
-                textView.setText("انت على وشك التبرع بقيمه (" + model.getOrganizationMouny() + ") جنيه لصالح (" + model.getOrganizationName() + ") للإستمرار اضغط موافق و سيقوم البرنامج مباشرة بتحويلك الى شاشه الرسائل لإتمام عمليه التبرع");
+                textView.setText("سوف تقوم بالتبرع بقيمه (" + model.getOrganizationMouny() + ") جنيه الى (" + model.getOrganizationName() + ") للإستمرار اضغط ارسال ليتم تحويلك الى شاشه الرسائل لإتمام عمليه التبرع ");
 
                 send.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -13,7 +13,8 @@
         android:gravity="right"
         android:text="dsaf"
         android:textColor="#000000"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textStyle="normal" />
 
     <View
         android:layout_width="match_parent"
