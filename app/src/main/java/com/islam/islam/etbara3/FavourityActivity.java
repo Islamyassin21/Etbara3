@@ -101,7 +101,6 @@ public class FavourityActivity extends AppCompatActivity {
                 final Database db = new Database(FavourityActivity.this);
 
 
-
 //                cancel.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {
@@ -114,8 +113,6 @@ public class FavourityActivity extends AppCompatActivity {
 //                        favAdapter.notifyDataSetChanged();
 //                    }
 //                });
-
-
             }
         });
     }

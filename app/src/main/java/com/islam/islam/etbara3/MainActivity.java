@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                         public void onClick(View v) {
                             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + model.getOrganizationSMS()));
                             i.putExtra("sms_body", model.getOrganizationSMSContent() + "");
-                            startActivity(i);
+                            startActivityForResult(i,1);
                             alertDialog.cancel();
                         }
                     });
@@ -158,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     alertDialog = builder.show();
 
                     alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
 
                 }
             });
@@ -188,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //            });
 
         } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "حدث خطأ اثناء الاتصال .. حاول مره اخرى", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "تأكد من اتصالك بالانترنت", Toast.LENGTH_LONG).show();
         }
 
         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(this, R.anim.list_layout_controller);
@@ -303,7 +302,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 getDataFromDatabase();
                 swipeRefreshLayout.setRefreshing(false);
 
-                Toast.makeText(MainActivity.this, "حدث خطأ اثناء الاتصال .. تأكد من اتصالك بالانترنت", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "تأكد من اتصالك بالانترنت", Toast.LENGTH_SHORT).show();
                 progressDialog.cancel();
 
                 connection.setOnClickListener(new View.OnClickListener() {
@@ -376,8 +375,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         mMenu = menu;
 
-        ArrayList<Model> arrayFav = db.getFavourite();
-        if (!(arrayFav.size() == 0)) {
+        int arrayFav = db.getOrganizationCountFav();
+        if (!(arrayFav == 0)) {
             menu.findItem(R.id.action_favorite).setIcon(android.R.drawable.btn_star_big_on);
 
         } else {
@@ -511,16 +510,29 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            Toast.makeText(MainActivity.this, "تمت عمليه التبرع بنجاح ... شكرا لتبرعك", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(MainActivity.this, "لم تتم عمليه التبرع", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        finish();
+
 
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-            this.finish();
+            finish();
+            System.exit(0);
             return true;
         }
         return false;
