@@ -3,8 +3,11 @@ package com.islam.islam.etbara3;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -12,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -28,6 +32,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -83,25 +88,68 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
         }
     }; // To control of action bar by item om list view
+    private AlertDialog.Builder builderHint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         getSupportActionBar().hide();
-        Reload();
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar_main);
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter("Pitanja_cigle")); // run brod cast receiver
 
+        /**************************************(Alert Dialog Hint)*********************************/
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("firstHint", MODE_PRIVATE);
+        boolean check = sharedPreferences.getBoolean("hint", false);
+        if (!check) {
+            View dialogHint = LayoutInflater.from(MainActivity.this).inflate(R.layout.first_hint, null);
+            CheckBox checkBox = (CheckBox) dialogHint.findViewById(R.id.hintCheckBox);
+
+            builderHint = new AlertDialog.Builder(MainActivity.this);
+            builderHint.setView(dialogHint);
+            builderHint.setCancelable(false);
+            builderHint.setTitle("اخلاء المسؤوليه ");
+            checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SharedPreferences preferences = getSharedPreferences("firstHint", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+
+                    editor.putBoolean("hint", true).commit();
+                }
+            });
+
+            builderHint.setPositiveButton("موافق", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+
+                    getSupportActionBar().show(); // show action bar
+                    getSupportActionBar().setTitle("القائمه الرئيسيه"); // set title in action bar
+                    swipeRefreshLayout.setVisibility(View.VISIBLE);
+                    listAdapter = new ListAdapter(MainActivity.this, R.layout.list_row, list);//
+                    listView.setAdapter(listAdapter);
+                    swipeRefreshLayout.setRefreshing(false);//hide refresh
+                }
+            });
+
+            //         builderHint.show();
+        }
+        /******************************************************************************************/
+
+        Reload();
     }
 
     private void Reload() {
 
         try {
-
 
             Backendless.initApp(this, APP_ID, SECRET_KEY, VERSION);
 
@@ -112,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             swipeRefreshLayout.setOnRefreshListener(this);
 
-
             progressDialog = new ProgressDialog(MainActivity.this);
             progressDialog.setMessage("انتظر لحظه من فضلك .. جاري تحميل البيانات");
             progressDialog.setCancelable(false);
@@ -120,7 +167,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             progressDialog.show();
 
             //   String data = sharedPreferences.getString("data", "");
-
 
             if (db.getOrganizationCount() == 0) {
                 WebServiceDataBackEndLess();
@@ -149,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                         public void onClick(View v) {
                             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + model.getOrganizationSMS()));
                             i.putExtra("sms_body", model.getOrganizationSMSContent() + "");
-                            startActivityForResult(i,1);
+                            startActivityForResult(i, 1);
                             alertDialog.cancel();
                         }
                     });
@@ -190,8 +236,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             Toast.makeText(MainActivity.this, "تأكد من اتصالك بالانترنت", Toast.LENGTH_LONG).show();
         }
 
-        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(this, R.anim.list_layout_controller);
-        listView.setLayoutAnimation(controller);
+
+        // To add animation to listView
+//        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(this, R.anim.list_layout_controller);
+//        listView.setLayoutAnimation(controller);
     }
 
     private void WebServiceDataBackEndLess() {
@@ -211,7 +259,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     listAdapter.clear();
                 }
 
-
                 list.addAll(response.getCurrentPage());
 
                 if (db.getOrganizationCount() == list.size()) {
@@ -230,12 +277,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                                 db.AddOrganization(model);
 
                                 (new DownloadTask(url, model.getOrganizationID())).execute();
-
                             }
                         } catch (MalformedURLException e) {
                             e.printStackTrace();
                         }
-
                     }
                 } else {
                     int count = -(list.size() - db.getOrganizationCount());
@@ -274,13 +319,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 //  textView.setText("");
 
                 // Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
-                progressDialog.cancel();
-                getSupportActionBar().show();
-                getSupportActionBar().setTitle("القائمه الرئيسيه");
-                swipeRefreshLayout.setVisibility(View.VISIBLE);
-                listAdapter = new ListAdapter(MainActivity.this, R.layout.list_row, list);
-                listView.setAdapter(listAdapter);
-                swipeRefreshLayout.setRefreshing(false);
+                //              progressDialog.cancel();// hide loading dialog
+//                getSupportActionBar().show(); // show action bar
+//                getSupportActionBar().setTitle("القائمه الرئيسيه"); // set title in action bar
+//                swipeRefreshLayout.setVisibility(View.VISIBLE);
+//                listAdapter = new ListAdapter(MainActivity.this, R.layout.list_row, list);//
+//                listView.setAdapter(listAdapter);
+                swipeRefreshLayout.setRefreshing(false);//hide refresh
             }
 
             @Override
@@ -417,21 +462,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     public void onRefresh() {
 
-//         listView.setVisibility(View.INVISIBLE);
-//        //Save where you last were in the list.
-//        int index = listView.getFirstVisiblePosition();
-//        View v = listView.getChildAt(0);
-//        // Call to notify, or updated(change, remove, move, add)
-//
-//        listAdapter.notifyDataSetChanged();
-//        int top = (v == null) ? 0 : v.getTop();
-//
-//        //Prevents the scroll to the new item at the new position
-//        listView.setSelectionFromTop(index, top);
-
         WebServiceDataBackEndLess();
-        //     listView.setVisibility(View.VISIBLE);
-        //   Model model = new Model();
+
         ArrayList<Model> check = db.getFavourite();
         for (int i = 0; i < check.size(); i++) {
             Model model = check.get(i);
@@ -490,7 +522,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byte[] byteArray = stream.toByteArray();
                     inputStream.close();
-                    Log.v("photoByte", String.valueOf(byteArray));
                     return byteArray;
                 }
             } catch (IOException e) {
@@ -503,11 +534,27 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         @Override
         protected void onPostExecute(byte[] bytes) {
             super.onPostExecute(bytes);
+
             db.AddOrganizationPhoto(mId, bytes);
+
+            getSupportActionBar().show(); // show action bar
+            getSupportActionBar().setTitle("القائمه الرئيسيه"); // set title in action bar
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+            listAdapter = new ListAdapter(MainActivity.this, R.layout.list_row, list);//
+            listView.setAdapter(listAdapter);
+            progressDialog.cancel();// hide loading dialog
+            swipeRefreshLayout.setRefreshing(false);//hide refresh
+
+//            Handler handler = new Handler();
+//            handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                }
+//            }, 4000);
 
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -515,10 +562,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         if (resultCode == RESULT_OK && requestCode == 1) {
             Toast.makeText(MainActivity.this, "تمت عمليه التبرع بنجاح ... شكرا لتبرعك", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(MainActivity.this, "لم تتم عمليه التبرع", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "لم تتم عمليه التبرع", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     @Override
     protected void onDestroy() {
@@ -527,6 +573,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
 
     }
+
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

@@ -77,7 +77,6 @@ public class Database extends SQLiteOpenHelper {
 
     public void AddOrganizationPhoto(int id, byte[] photo) {
 
-        Log.v("photoAdd", String.valueOf(photo));
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Conestant.ORGANIZATION_ID, id);
@@ -94,7 +93,6 @@ public class Database extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             photo = cursor.getBlob(cursor.getColumnIndex(Conestant.ORGANIZATION_PHOTO));
-            Log.v("photoGet", String.valueOf(photo));
         }
         return photo;
     }
@@ -120,7 +118,6 @@ public class Database extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
 
-        Log.v("data888", String.valueOf(cursor.getCount()));
         if (cursor.getCount() <= 0) {
             return false;
         }
@@ -138,7 +135,6 @@ public class Database extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
 
-        Log.v("data888", String.valueOf(cursor.getCount()));
         if (cursor.getCount() <= 0) {
             return false;
         }
@@ -160,7 +156,6 @@ public class Database extends SQLiteOpenHelper {
         values.put(Conestant.ORGANIZATION_NAME, model.getOrganizationName());
         values.put(Conestant.ORGANIZATION_PHONE, model.getOrganizationPhone());
         values.put(Conestant.ORGANIZATION_PHOTO, model.getOrganizationPhoto());
-        Log.v("kjhgdui", String.valueOf(model.getOrganizationPhoto()));
         values.put(Conestant.ORGANIZATION_SERVICE, model.getOrganozationService());
         values.put(Conestant.ORGANIZATION_SMS, model.getOrganizationSMS());
         values.put(Conestant.ORGANIZATION_SMS_CONTENT, model.getOrganizationSMSContent());
@@ -223,7 +218,6 @@ public class Database extends SQLiteOpenHelper {
     public ArrayList<Model> getOrganization() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(Conestant.TABLE_Organization, null, null, null, null, null, Conestant.ORGANIZATION_ID);
-        Log.v("cursorData", String.valueOf(cursor.getCount()));
         if (cursor.moveToFirst()) {
             do {
                 Model shop = new Model();
@@ -252,7 +246,6 @@ public class Database extends SQLiteOpenHelper {
     public ArrayList<Model> getFavourite() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(Conestant.TABLE_FAV, null, null, null, null, null, Conestant.ORGANIZATION_ID);
-        Log.v("cursorData", String.valueOf(cursor.getCount()));
         if (cursor.moveToFirst()) {
             do {
                 Model shop = new Model();

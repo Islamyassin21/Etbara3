@@ -100,7 +100,6 @@ public class ListAdapter extends ArrayAdapter<Model> {
         holder.mKema.setText(holder.model.getOrganizationMouny());
 
         byte[] photo = db.getOrganizationPhoto(holder.model.getOrganizationID());
-        Log.v("kdashgh", String.valueOf(photo));
         if (photo != null) {
             Bitmap bmp = BitmapFactory.decodeByteArray(photo, 0, photo.length);
             holder.mOrganizationImage.setImageBitmap(bmp);

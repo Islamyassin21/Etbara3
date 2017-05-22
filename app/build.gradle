@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        ArzaQ {
+            keyAlias 'ArzaQ'
+            keyPassword 'isLam6364152'
+            storeFile file('F:/My Project/Etbara3/arzak.jks')
+            storePassword 'isLam6364152'
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
     defaultConfig {
@@ -15,16 +23,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.ArzaQ
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     compile 'com.backendless:backendless:3.0.20.1'
@@ -34,5 +42,4 @@ dependencies {
     compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
     compile 'com.google.android.gms:play-services-ads:10.2.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-
 }

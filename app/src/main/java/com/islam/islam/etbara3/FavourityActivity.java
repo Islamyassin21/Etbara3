@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -20,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.islam.islam.etbara3.Adapter.FavoriteAdapter;
 import com.islam.islam.etbara3.Database.Database;
@@ -42,6 +44,7 @@ public class FavourityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourity);
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiverFav, new IntentFilter("islam_yassin"));
 
@@ -90,7 +93,7 @@ public class FavourityActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + model.getOrganizationSMS()));
                         i.putExtra("sms_body", model.getOrganizationSMSContent() + "");
-                        startActivity(i);
+                        startActivityForResult(i, 1);
                         alertDialog.cancel();
                     }
                 });
@@ -164,6 +167,16 @@ public class FavourityActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            Toast.makeText(FavourityActivity.this, "تمت عمليه التبرع بنجاح ... شكرا لتبرعك", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(FavourityActivity.this, "لم تتم عمليه التبرع", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private BroadcastReceiver broadcastReceiverFav = new BroadcastReceiver() {

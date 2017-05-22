@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#ffffff"
+    android:orientation="vertical"
     tools:context="com.islam.islam.etbara3.MainActivity">
 
 
@@ -45,12 +45,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:divider="#e1e1e1"
-
                 android:dividerHeight="10dp"
-                android:layoutAnimation="@anim/list_layout_controller"
-                android:persistentDrawingCache="animation|scrolling"
                 android:scrollbars="none" />
+
+            // add to listView to make animation
+            <!--android:layoutAnimation="@anim/list_layout_controller"-->
+            <!--android:persistentDrawingCache="animation|scrolling"-->
+
         </android.support.v4.widget.SwipeRefreshLayout>
+
 
     </RelativeLayout>
 </LinearLayout>

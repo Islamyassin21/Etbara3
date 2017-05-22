@@ -6,7 +6,6 @@
     android:weightSum="1">
 
     <ImageView
-        android:src="@drawable/conectionfail"
         android:id="@+id/reloadImage"
         android:layout_gravity="center"
         android:layout_width="wrap_content"

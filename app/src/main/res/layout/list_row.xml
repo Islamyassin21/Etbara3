@@ -13,22 +13,67 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/addToFav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@android:drawable/btn_star_big_on" />
 
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.16"
-            android:orientation="vertical"
+            android:layout_weight="0.3"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/listOrganizationName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="جمعيه رساله"
+                android:textColor="#000000"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/listOrganizationService"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="علاج الاورام" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="0.7"
             android:weightSum="1">
 
-            <LinearLayout
-                android:layout_marginRight="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_width="40dp"
-                android:layout_height="0dp"
-                android:layout_weight="0.7"
-                android:background="@drawable/coin_icon"
-                android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/organizationPhoto"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/no_iamge_available"
+                app:civ_border_color="#d9b250"
+                app:civ_border_width="1dp" />
+
+            <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/imageView"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignEnd="@+id/organizationPhoto"
+                android:layout_alignRight="@+id/organizationPhoto"
+                android:layout_alignTop="@+id/organizationPhoto"
+                android:background="@drawable/circle_image"
+                android:orientation="vertical"
+                android:weightSum="1">
 
                 <TextView
                     android:id="@+id/listKema"
@@ -36,66 +81,11 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="10"
-                    android:textSize="20sp" />
+                    android:text="5"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold" />
 
             </LinearLayout>
-
-            <TextView
-                android:textColor="#ffd443"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.3"
-                android:gravity="center"
-                android:text="جنيه" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.64"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/listOrganizationName"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:paddingLeft="5dp"
-                android:gravity="center_vertical"
-                android:text="مؤسسه مرسال"
-                android:textColor="#000000"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/listOrganizationService"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="علاج"
-                android:textSize="18sp"
-                android:textColor="#f7b32b" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2"
-            android:clickable="false"
-            >
-
-            <ImageView
-                android:id="@+id/addToFav"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:clickable="true"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:src="@android:drawable/btn_star_big_off" />
         </RelativeLayout>
 
 
