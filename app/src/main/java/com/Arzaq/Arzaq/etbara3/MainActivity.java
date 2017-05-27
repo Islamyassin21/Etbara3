@@ -1,4 +1,4 @@
-package com.islam.islam.etbara3;
+package com.Arzaq.Arzaq.etbara3;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -12,10 +12,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -28,8 +26,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -44,9 +40,9 @@ import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.BackendlessDataQuery;
 import com.backendless.persistence.QueryOptions;
-import com.islam.islam.etbara3.Adapter.ListAdapter;
-import com.islam.islam.etbara3.Database.Database;
-import com.islam.islam.etbara3.Model.Model;
+import com.Arzaq.Arzaq.etbara3.Adapter.ListAdapter;
+import com.Arzaq.Arzaq.etbara3.Database.Database;
+import com.Arzaq.Arzaq.etbara3.Model.Model;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

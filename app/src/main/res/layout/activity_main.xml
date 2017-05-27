@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:orientation="vertical"
-    tools:context="com.islam.islam.etbara3.MainActivity">
-
+    tools:context="com.Arzaq.Arzaq.etbara3.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -31,7 +30,7 @@
             android:layout_centerVertical="true"
             android:text="اعد المحاوله مره اخرى .."
             android:textColor="#000000"
-            android:textSize="25sp"
+            android:textSize="22sp"
             android:visibility="gone" />
 
         <android.support.v4.widget.SwipeRefreshLayout

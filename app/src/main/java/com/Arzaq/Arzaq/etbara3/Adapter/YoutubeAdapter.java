@@ -1,4 +1,4 @@
-package com.islam.islam.etbara3.Adapter;
+package com.Arzaq.Arzaq.etbara3.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.islam.islam.etbara3.Model.Model;
-import com.islam.islam.etbara3.R;
+import com.Arzaq.Arzaq.etbara3.Model.Model;
+import com.Arzaq.Arzaq.etbara3.R;
 
 import java.util.List;
 

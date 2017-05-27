@@ -1,13 +1,12 @@
-package com.islam.islam.etbara3.Database;
+package com.Arzaq.Arzaq.etbara3.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import com.islam.islam.etbara3.Model.Model;
+import com.Arzaq.Arzaq.etbara3.Model.Model;
 
 import java.util.ArrayList;
 

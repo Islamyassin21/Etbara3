@@ -1,8 +1,7 @@
-package com.islam.islam.etbara3;
+package com.Arzaq.Arzaq.etbara3;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -23,9 +22,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.islam.islam.etbara3.Adapter.FavoriteAdapter;
-import com.islam.islam.etbara3.Database.Database;
-import com.islam.islam.etbara3.Model.Model;
+import com.Arzaq.Arzaq.etbara3.Adapter.FavoriteAdapter;
+import com.Arzaq.Arzaq.etbara3.Database.Database;
+import com.Arzaq.Arzaq.etbara3.Model.Model;
 
 import java.util.ArrayList;
 

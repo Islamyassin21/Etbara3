@@ -1,4 +1,4 @@
-package com.islam.islam.etbara3.Model;
+package com.Arzaq.Arzaq.etbara3.Model;
 
 import com.backendless.Backendless;
 import com.backendless.BackendlessCollection;

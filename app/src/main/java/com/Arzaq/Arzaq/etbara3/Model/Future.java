@@ -1,4 +1,4 @@
-package com.islam.islam.etbara3.Model;
+package com.Arzaq.Arzaq.etbara3.Model;
 
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessException;

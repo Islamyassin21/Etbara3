@@ -1,4 +1,4 @@
-package com.islam.islam.etbara3;
+package com.Arzaq.Arzaq.etbara3;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

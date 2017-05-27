@@ -1,4 +1,4 @@
-package com.islam.islam.etbara3.Adapter;
+package com.Arzaq.Arzaq.etbara3.Adapter;
 
 /**
  * Created by islam on 31/01/2017.

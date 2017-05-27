@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.islam.islam.etbara3">
+    package="com.Arzaq.Arzaq.etbara3">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-sdk
-        android:maxSdkVersion="15"
-        android:targetSdkVersion="25" />
+    <!--<uses-feature-->
+        <!--android:name="android.hardware.telephony"-->
+        <!--android:required="false" />-->
+
+    <!--<compatible-screens>-->
+        <!--<screen android:screenSize="small" android:screenDensity="ldpi" />-->
+        <!--<screen android:screenSize="small" android:screenDensity="mdpi" />-->
+        <!--<screen android:screenSize="small" android:screenDensity="hdpi" />-->
+        <!--<screen android:screenSize="small" android:screenDensity="xhdpi" />-->
+
+
+        <!--<screen android:screenSize="normal" android:screenDensity="ldpi" />-->
+        <!--<screen android:screenSize="normal" android:screenDensity="mdpi" />-->
+        <!--<screen android:screenSize="normal" android:screenDensity="hdpi" />-->
+        <!--<screen android:screenSize="normal" android:screenDensity="xhdpi" />-->
+
+        <!--<screen android:screenSize="large" android:screenDensity="ldpi" />-->
+        <!--<screen android:screenSize="large" android:screenDensity="mdpi" />-->
+        <!--<screen android:screenSize="large" android:screenDensity="hdpi" />-->
+        <!--<screen android:screenSize="large" android:screenDensity="xhdpi" />-->
+
+        <!--<screen android:screenSize="xlarge" android:screenDensity="ldpi" />-->
+        <!--<screen android:screenSize="xlarge" android:screenDensity="mdpi" />-->
+        <!--<screen android:screenSize="xlarge" android:screenDensity="hdpi" />-->
+        <!--<screen android:screenSize="xlarge" android:screenDensity="xhdpi" />-->
+        <!---->
+    <!--</compatible-screens>-->
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
 
     <application
         android:allowBackup="true"
@@ -16,7 +48,7 @@
         android:label="@string/app_name"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <activity android:name="com.islam.islam.etbara3.MainActivity">
+        <activity android:name="com.Arzaq.Arzaq.etbara3.MainActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,21 +56,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.islam.islam.etbara3.DetailsActivity">
+        <activity android:name="com.Arzaq.Arzaq.etbara3.DetailsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.islam.islam.etbara3.MainActivity" />
+                android:value="com.Arzaq.Arzaq.etbara3.MainActivity" />
         </activity>
 
-        <receiver android:name="com.islam.islam.etbara3.SMS">
+        <receiver android:name="com.Arzaq.Arzaq.etbara3.SMS">
             <intent-filter>
                 <action android:name="in.wptrafficanalyzer.sent" />
                 <action android:name="in.wptrafficanalyzer.delivered" />
             </intent-filter>
         </receiver>
 
-        <activity android:name="com.islam.islam.etbara3.FavourityActivity" />
-        <activity android:name="com.islam.islam.etbara3.SettingActivity"></activity>
+        <activity android:name="com.Arzaq.Arzaq.etbara3.FavourityActivity" />
+        <activity android:name="com.Arzaq.Arzaq.etbara3.SettingActivity"></activity>
     </application>
 
 </manifest>
