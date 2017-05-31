@@ -242,6 +242,35 @@ public class Database extends SQLiteOpenHelper {
         return dataListModel;
     }
 
+    public ArrayList<Model> getOrganizationSearch(String content) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("select * from " + Conestant.TABLE_Organization + " where " + Conestant.ORGANIZATION_NAME + " like '%" + content + "%' or " + Conestant.ORGANIZATION_SERVICE + " like '%" + content + "%'", null);
+        if (cursor.moveToFirst()) {
+            do {
+                Model shop = new Model();
+
+                shop.setOrganizationID(cursor.getInt(cursor.getColumnIndex(Conestant.ORGANIZATION_ID)));
+                shop.setOrganizationAccountNo(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_ACCOUNT_NO)));
+                shop.setOrganizationName(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_NAME)));
+                shop.setOrganizationYoutubeName(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_YOUTUBE_NAME)));
+                shop.setOrganizationInfo(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_INFO)));
+                shop.setOrganizationMouny(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_MOUNY)));
+                shop.setOrganizationPhoto(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_PHOTO)));
+                shop.setOrganizationPhone(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_PHONE)));
+                shop.setOrganozationService(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_SERVICE)));
+                shop.setOrganizationSMS(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_SMS)));
+                shop.setOrganizationSMSContent(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_SMS_CONTENT)));
+                shop.setOrganizationYoutubeLink(cursor.getString(cursor.getColumnIndex(Conestant.ORGANIZATION_YOUTUBE_LINK)));
+
+                dataListModel.add(shop);
+
+            } while ((cursor.moveToNext()));
+        }
+        db.close();
+        return dataListModel;
+    }
+
     public ArrayList<Model> getFavourite() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(Conestant.TABLE_FAV, null, null, null, null, null, Conestant.ORGANIZATION_ID);

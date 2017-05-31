@@ -20,6 +20,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             String action = intent.getStringExtra("action");
             if (action.equals("remove")) {
 
-                mMenu.findItem(R.id.action_favorite).setIcon(android.R.drawable.btn_star_big_off);
+                mMenu.findItem(R.id.action_favorite).setIcon(R.drawable.ic_star_border_black_24dp);
 
             } else {
 
@@ -421,7 +424,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             menu.findItem(R.id.action_favorite).setIcon(android.R.drawable.btn_star_big_on);
 
         } else {
-            menu.findItem(R.id.action_favorite).setIcon(android.R.drawable.btn_star_big_off);
+            menu.findItem(R.id.action_favorite).setIcon(R.drawable.ic_star_border_black_24dp);
 
         }
         return true;
@@ -435,9 +438,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_search) {
 
-            Intent i = new Intent(MainActivity.this, SettingActivity.class);
+            Intent i = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(i);
             return true;
         } else if (id == R.id.action_favorite) {
@@ -556,7 +559,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == 1) {
-            Toast.makeText(MainActivity.this, "تمت عمليه التبرع بنجاح ... شكرا لتبرعك", Toast.LENGTH_LONG).show();
+          //  Toast.makeText(MainActivity.this, "تمت عمليه التبرع بنجاح ... شكرا لتبرعك", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(MainActivity.this, "لم تتم عمليه التبرع", Toast.LENGTH_SHORT).show();
         }
@@ -569,7 +572,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
 
     }
-
 
 
     @Override

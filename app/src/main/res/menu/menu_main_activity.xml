@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:orderInCategory="50"
+        android:title="الاعدادات"
+        android:visible="true"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_favorite"
-        android:icon="@drawable/favorite"
+        android:icon="@drawable/ic_star_border_black_24dp"
         android:orderInCategory="100"
-        app:showAsAction="always"
-        android:title="المفضله" />
-    <item
-        android:id="@+id/action_settings"
-        android:icon="@drawable/action_setting"
-        android:orderInCategory="200"
-        app:showAsAction="always"
-        android:visible="false"
-        android:title="الاعدادات" />
+        android:title="المفضله"
+        app:showAsAction="always" />
 
 </menu>
