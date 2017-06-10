@@ -8,13 +8,17 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -37,11 +41,13 @@ public class FavourityActivity extends AppCompatActivity {
     private ArrayList<Model> list = new ArrayList<>();
     private FavoriteAdapter favAdapter;
     private Database db;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourity);
+
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -51,8 +57,15 @@ public class FavourityActivity extends AppCompatActivity {
         textFav = (TextView) findViewById(R.id.text_fav);
         buttonFav = (Button) findViewById(R.id.button_fav);
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_fav);
+        getSupportActionBar().setTitle("المفضله");
+//        toolbar = (Toolbar) findViewById(R.id.toolbarfav);
+//        setSupportActionBar(toolbar);
+//
+//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        getSupportActionBar().setCustomView(R.layout.action_bar_fav);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         getData();
 
         favAdapter = new FavoriteAdapter(FavourityActivity.this, R.layout.list_row, list);
@@ -194,4 +207,30 @@ public class FavourityActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_favourite_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up buttonall, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+
+        //noinspection SimplifiableIfStatement
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                //    Toast.makeText(getApplicationContext(), "HOME", Toast.LENGTH_LONG).show();
+                NavUtils.navigateUpFromSameTask(this);
+                break;
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
 }

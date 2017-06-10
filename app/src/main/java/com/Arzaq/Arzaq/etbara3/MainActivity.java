@@ -20,6 +20,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -96,10 +97,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        getSupportActionBar().hide();
+        getSupportActionBar().setTitle("الرئيسيه");
+        getSupportActionBar().getTitle();
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_main);
+
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        getSupportActionBar().setCustomView(R.layout.action_bar_main);
+
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter("Pitanja_cigle")); // run brod cast receiver
 
         /**************************************(Alert Dialog Hint)*********************************/
@@ -192,9 +198,18 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     send.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + model.getOrganizationSMS()));
-                            i.putExtra("sms_body", model.getOrganizationSMSContent() + "");
-                            startActivityForResult(i, 1);
+
+                            Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+                            smsIntent.setType("vnd.android-dir/mms-sms");
+                            smsIntent.putExtra("address", model.getOrganizationSMS());
+                            smsIntent.putExtra("sms_body", model.getOrganizationSMSContent() + "");
+                            smsIntent.putExtra("exit_on_sent_successfully", true);
+                            startActivityForResult(smsIntent, 1);
+
+
+//                            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + model.getOrganizationSMS()));
+//                            i.putExtra("sms_body", model.getOrganizationSMSContent() + "");
+//                            startActivityForResult(i, 1);
                             alertDialog.cancel();
                         }
                     });
@@ -204,6 +219,18 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
                     alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+                }
+            });
+
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    Model model = listAdapter.getItem(i);
+                    Intent k = new Intent(MainActivity.this, ScrollingActivity.class);
+                    k.putExtra("MyClass", model);
+                    startActivity(k);
+                    return true;
                 }
             });
 
@@ -449,10 +476,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 swipeRefreshLayout.setRefreshing(false);
                 Intent i = new Intent(MainActivity.this, FavourityActivity.class);
                 startActivity(i);
-                finish();
             } else {
                 Toast.makeText(MainActivity.this, "لا توجد بيانات في قائمه المفضله", Toast.LENGTH_LONG).show();
             }
+        } else if (id == android.R.id.accessibilityActionContextClick) {
+            Toast.makeText(MainActivity.this, "title", Toast.LENGTH_LONG).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -558,8 +586,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.v("kjdfhs", requestCode + " " + resultCode + " " + data);
         if (resultCode == RESULT_OK && requestCode == 1) {
-          //  Toast.makeText(MainActivity.this, "تمت عمليه التبرع بنجاح ... شكرا لتبرعك", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "تمت عمليه التبرع بنجاح ... شكرا لتبرعك", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(MainActivity.this, "لم تتم عمليه التبرع", Toast.LENGTH_SHORT).show();
         }
@@ -569,8 +598,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     protected void onDestroy() {
         super.onDestroy();
         finish();
-
-
     }
 
 

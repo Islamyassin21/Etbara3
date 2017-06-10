@@ -7,6 +7,10 @@
     android:orientation="vertical"
     tools:context="com.Arzaq.Arzaq.etbara3.MainActivity">
 
+    <!--<include-->
+        <!--android:id="@+id/toolbar"-->
+        <!--layout="@layout/app_bar" />-->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -43,6 +47,7 @@
                 android:id="@+id/listViewMain"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#ffffff"
                 android:divider="#e1e1e1"
                 android:dividerHeight="10dp"
                 android:scrollbars="none" />
@@ -55,4 +60,5 @@
 
 
     </RelativeLayout>
+
 </LinearLayout>
