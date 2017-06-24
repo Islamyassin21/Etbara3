@@ -14,25 +14,27 @@
     <LinearLayout
         android:layout_width="80dp"
         android:layout_height="100dp"
-        android:padding="2dp"
-        android:orientation="vertical">
+        android:background="@color/seconColor"
+        android:orientation="vertical"
+        android:padding="2dp">
 
         <ImageView
             android:id="@+id/youtubeImage"
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:src="@drawable/youtube" />
+            android:src="@drawable/ic_play_circle_filled_black_24dp" />
 
         <TextView
             android:id="@+id/youtubeText"
             android:layout_width="60dp"
             android:layout_height="50dp"
-            android:ellipsize="end"
-            android:maxLines="2"
             android:layout_gravity="center"
+            android:ellipsize="end"
             android:gravity="center"
-            android:textColor="#ffffff"
+            android:maxLines="2"
+            android:text="لما القلب يدق"
+            android:textColor="@color/thirdColor"
             android:textSize="14sp" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

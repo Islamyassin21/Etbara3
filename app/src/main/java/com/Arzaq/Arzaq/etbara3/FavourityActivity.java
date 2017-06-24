@@ -130,6 +130,19 @@ public class FavourityActivity extends AppCompatActivity {
 //                });
             }
         });
+
+
+        listFav.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Model model = favAdapter.getItem(i);
+                Intent k = new Intent(FavourityActivity.this, ScrollingActivity.class);
+                k.putExtra("MyClass", model);
+                startActivity(k);
+                return true;
+            }
+        });
     }
 
     public void getData() {

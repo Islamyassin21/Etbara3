@@ -98,5 +98,6 @@
     <string name="AccountNo">أرقام الحساب</string>
     <string name="achievements">الانجازات</string>
     <string name="projects">المشاريع</string>
-    <string name="phone">تواصل معنا</string>
+    <string name="phone">تواصل مع</string>
+    <string name="video">بعض الاعلانات</string>
 </resources>

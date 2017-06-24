@@ -9,4 +9,8 @@
     <color name="textView">#f8f0fb</color>
     <color name="mouny">#007bb3</color>
     <color name="select">#566246</color>
+
+    <color name="firstColor">#047700</color>
+    <color name="seconColor">#089dcb</color>
+    <color name="thirdColor">#ffffff</color>
 </resources>

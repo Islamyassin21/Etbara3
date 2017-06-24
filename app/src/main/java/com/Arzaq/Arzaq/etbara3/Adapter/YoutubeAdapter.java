@@ -49,6 +49,7 @@ public class YoutubeAdapter extends RecyclerView.Adapter<YoutubeAdapter.ViewHold
                 mContext.startActivity(i);
             }
         });
+
     }
 
     @Override
